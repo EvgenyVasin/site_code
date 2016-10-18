@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+    <title>Валидатор кода</title>
+    <script src="js/sockjs-0.3.4.js"></script>
+    <script src="js/stomp.js"></script>
+    <script type="text/javascript">
+        var stompClient = null;
+        function setConnected(connected) {
+        }
+        function connect() {
+            var socket = new SockJS('/jcode');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                setConnected(true);
+                console.log('Connected: ' + frame);
+
+                stompClient.subscribe('/topic/out_print', function(greeting){
+                    out_print(greeting.body);
+                });
+
+                stompClient.subscribe('/topic/out_println', function(greeting){
+                    out_println(greeting.body);
+                });
+
+            });
+            stompClient.events.add()
+
+
+
+
+        }
+
+        function disconnect() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+            setConnected(false);
+            console.log("Disconnected");
+        }
+
+
+        function sendJCode() {
+            var msg = document.getElementById('inputCode').value;
+            stompClient.send("/app/jcode", {}, JSON.stringify({ 'msg': msg }));
+
+        }
+
+
+
+
+        function EditEnter()
+        {
+            var event = EditEnter.caller.arguments[0] || window.event ;
+            key = event.keyCode;
+            if(key==13)
+                sendJCode();
+        }
+
+
+        function out_print(s){
+            var scrl = document.getElementById("scrollbox");
+            scrl.innerHTML +=   s;
+            scrl.scrollTop = scrl.scrollHeight;
+        }
+
+        function out_println(s){
+            var scrl = document.getElementById("scrollbox");
+            scrl.innerHTML +=   s + '<br/>';
+            scrl.scrollTop = scrl.scrollHeight;
+        }
+
+    </script>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+</head>
+<body  onload="connect();" >
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div class="container" style=" width:680px; height:380px;">
+
+    <b>Тадам</b>
+
+    <div id="scrollbox">
+
+    </div>
+    <div>
+
+        <textarea id = "inputCode">public class Lesson{
+public static void main(String[] args){
+    System.out.println("1111111111111111111111111111111111111111111111111111111111111111111111111111111");
+}
+}</textarea>
+        <button id="sendCLI" style="width:70px" onclick="sendJCode();">ок</button>
+
+    </div>
+</div>
+
+
+
+</body>
+</html>

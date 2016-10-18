@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+</head>
+<body>
+
+<div class="container">
+    <div th:fragment="header">
+
+        <div id="header">
+
+            <div id="headerTitle">
+                Java language training
+            </div>
+            <div id="headerTag">
+                ООО "jskills"
+            </div>
+
+            <div id="headerImg">
+                <img src="../../static/images/logo.jpg" width="140"
+                     th:src="@{/images/logo.jpg}"/>
+            </div>
+
+        </div>
+
+        <div id="menu">
+            <ul>
+                <li><a href="#" th:href="@{/}">Home</a></li>
+                <li><a href="#" th:href="@{/test_validator}">Validator</a></li>
+
+            </ul>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
