@@ -5,6 +5,13 @@
     <title>Валидатор кода</title>
     <script src="js/sockjs-0.3.4.js"></script>
     <script src="js/stomp.js"></script>
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css"/>
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/mode/xml/xml.js"></script>
+    <script src="codemirror/mode/javascript/javascript.js"></script>
+    <script src="codemirror/mode/css/css.js"></script>
+    <script src="codemirror/mode/clike/clike.js"></script>
+    <script src="codemirror/mode/php/php.js"></script>
     <script type="text/javascript">
         var stompClient = null;
         function setConnected(connected) {
@@ -61,7 +68,8 @@
 
         function out_print(s){
             var scrl = document.getElementById("scrollbox");
-            scrl.innerHTML +=   s;
+
+            scrl.innerHTML += s.replace('\n', '<br/>');
             scrl.scrollTop = scrl.scrollHeight;
         }
 
@@ -89,7 +97,8 @@
 
         <textarea id = "inputCode">public class Lesson{
 public static void main(String[] args){
-    System.out.println("1111111111111111111111111111111111111111111111111111111111111111111111111111111");
+
+    System.out.println("1111111111111111111111111111");
 }
 }</textarea>
         <button id="sendCLI" style="width:70px" onclick="sendJCode();">ок</button>
@@ -97,7 +106,17 @@ public static void main(String[] args){
     </div>
 </div>
 
-
+<script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("inputCode"), {
+        lineNumbers: true, // Нумеровать каждую строчку.
+        matchBrackets: true,
+        mode: "text/x-java",
+        indentUnit: 2, // Длина отступа в пробелах.
+        indentWithTabs: true,
+        enterMode: "keep",
+        tabMode: "shift"
+    });
+</script>
 
 </body>
 </html>

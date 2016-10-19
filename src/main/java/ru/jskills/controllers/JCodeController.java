@@ -52,6 +52,7 @@ public class JCodeController {
         main.invoke(null, (Object) null);
 
         String s = new String(baOut.toByteArray());
+
         simpMessagingTemplate.convertAndSend("/topic/out_print", s);
 
         System.setOut(sysOut);
