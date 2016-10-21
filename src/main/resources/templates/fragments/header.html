@@ -15,10 +15,12 @@
             </div>
             <div id="headerTag">
                 ООО "jskills"
+
+                <p th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</p>
             </div>
 
             <div id="headerImg">
-                <img src="../../static/images/logo.jpg" width="140"
+                <img src="/images/logo.jpg" width="140"
                      th:src="@{/images/logo.jpg}"/>
             </div>
 
