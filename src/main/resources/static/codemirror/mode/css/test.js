@@ -154,7 +154,7 @@
    MT("document",
       "[def @document] [tag url]([string http://blah]),",
       "  [tag url-prefix]([string https://]),",
-      "  [tag domain]([string blah.com]),",
+      "  [tag entities]([string blah.com]),",
       "  [tag regexp]([string \".*blah.+\"]) {",
       "    [builtin #id] {",
       "      [property background-color]: [keyword white];",
@@ -171,7 +171,7 @@
       "[def @document] [tag url-prefix]([string https://]) { [builtin #id] { } }");
 
    MT("document_domain",
-      "[def @document] [tag domain]([string blah.com]) { [tag foo] { } }");
+      "[def @document] [tag entities]([string blah.com]) { [tag foo] { } }");
 
    MT("document_regexp",
       "[def @document] [tag regexp]([string \".*blah.+\"]) { [builtin #id] { } }");

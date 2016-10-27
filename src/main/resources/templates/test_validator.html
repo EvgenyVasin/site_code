@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
     <title>Валидатор кода</title>
     <script src="/js/sockjs-0.3.4.js"></script>
     <script src="/js/stomp.js"></script>
@@ -31,11 +30,14 @@
     <script src="/codemirror/mode/clike/clike.js"></script>
     <script src="/codemirror/mode/php/php.js"></script>
     <script src="/codemirror/mode/javascript/javascript.js"></script>
-    <script type="text/javascript">
+
+    <script type="text/javascript" th:inline="javascript">
         var editor;
         var inputCode = null;
         var stompClient = null;
-        function init(){
+        var sessionId;
+        var inputText = "";
+    function init(){
             inputCode = document.getElementById('inputCode');
 
             CodeMirror.commands.autocomplete = function(cm) {
@@ -62,32 +64,32 @@
                 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
             });
 
-//            CodeMirror.on(sel_top, "change", function() {
-//                inputCode.innerText = editor.getValue();
-//            });
-
-            connect();
+        connect();
         }
+
 
         function setConnected(connected) {
         }
         function connect() {
+
             var socket = new SockJS('/jcode');
+
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 setConnected(true);
-                console.log('Connected: ' + frame);
+                out_println('Connected: ' + frame);
+                /*<![CDATA[*/
 
-                stompClient.subscribe('/topic/out_print', function(greeting){
+                sessionId = /*[[${#httpServletRequest.getRequestedSessionId()}]]*/ 'SessionId';
+
+                /*]]>*/
+                out_println(sessionId);
+                stompClient.subscribe('/topic/out_print'+ sessionId, function(greeting){
                     out_print(greeting.body);
                 });
-
-                stompClient.subscribe('/topic/out_println', function(greeting){
-                    out_println(greeting.body);
-                });
-
+                //sendJCode();
             });
-            stompClient.events.add()
+//            stompClient.events.add('on')
 
 
 
@@ -99,13 +101,14 @@
                 stompClient.disconnect();
             }
             setConnected(false);
-            console.log("Disconnected");
+            out_println("Disconnected");
         }
 
 
         function sendJCode() {
-            var msg = editor.getValue();
-            stompClient.send("/app/jcode", {}, JSON.stringify({ 'msg': msg }));
+
+            var msg = editor.getValue(); +
+            stompClient.send("/app/jcode", {}, JSON.stringify({'commandId':0, 'sessionId':sessionId  ,'msg': msg }));
 
         }
 
@@ -116,8 +119,13 @@
         {
             var event = EditEnter.caller.arguments[0] || window.event ;
             key = event.keyCode;
-            if(key==13)
-                sendJCode();
+            if(key==13){
+                var inpt = document.getElementById("inputCMD");
+                out_println(inpt.value);
+                stompClient.send("/app/jcode", {}, JSON.stringify({'commandId':1, 'sessionId':sessionId  ,'msg': inpt.value }));
+                inpt.value = '';
+            }
+
         }
 
         String.prototype.replaceAll = function(character,replaceChar){
@@ -130,15 +138,16 @@
         }
 
         function out_print(s){
-            var scrl = document.getElementById("scrollbox");
-
-            scrl.innerHTML += s.replaceAll('\n', '<br/>');
+            var scrl = document.getElementById("scrollboxCMD");
+            scrl.innerHTML  +=  s.replaceAll('\n', '<br/>') + '<br/>';
             scrl.scrollTop = scrl.scrollHeight;
+
+//            disconnect();
         }
 
         function out_println(s){
-            var scrl = document.getElementById("scrollbox");
-            scrl.innerHTML +=   s + '<br/>';
+            var scrl = document.getElementById("scrollboxCMD");
+            scrl.innerHTML =   scrl.innerHTML +  s.replaceAll('\n', '<br/>') + '<br/>';
             scrl.scrollTop = scrl.scrollHeight;
         }
 
@@ -153,16 +162,28 @@
 
     <b>Console</b>
 
-    <div id="scrollbox">
+    <div id="scrollboxCMD" >
 
     </div>
+    <textarea id="inputCMD" onkeypress="EditEnter();">
+    </textarea>
     <div>
 
-        <textarea id = "inputCode">public class Lesson{
-public static void main(String[] args){
-    System.out.println("1111111111111111111111111111");
+        <textarea id = "inputCode">
+import java.io.*;
+
+public class Lesson{
+  public static void main(String[] args) throws Exception{
+	InputStream inputStream = System.in;
+	Reader inputStreamReader = new InputStreamReader(inputStream);
+	BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+	String Price = bufferedReader.readLine(); //читаем строку с клавиатуры
+
+	System.out.println("Я буду зарабатывать $" + Price + " в час");
+  }
 }
-}</textarea>
+        </textarea>
         <button id="sendCLI" style="width:70px" onclick="sendJCode();">ок</button>
 
     </div>

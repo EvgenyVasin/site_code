@@ -99,7 +99,7 @@
       if (ch == "." && stream.match(/^\.[a-z][\w-]*/i)) {
         return ["qualifier", "qualifier"];
       }
-      // url url-prefix domain regexp
+      // url url-prefix entities regexp
       if (stream.match(documentTypesRegexp)) {
         if (stream.peek() == "(") state.tokenize = tokenParenthesized;
         return ["property", "word"];

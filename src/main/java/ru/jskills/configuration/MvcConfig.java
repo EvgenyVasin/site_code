@@ -1,15 +1,16 @@
 package ru.jskills.configuration;
 
 import org.h2.server.web.WebServlet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import java.util.Locale;
 import java.util.Properties;
@@ -18,8 +19,25 @@ import java.util.Properties;
  * Created by safin.v on 19.10.2016.
  */
 @Configuration
-//@EnableWebMvc
 public class MvcConfig extends WebMvcConfigurerAdapter {
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+            "classpath:/META-INF/resources/", "classpath:/resources/",
+            "classpath:/static/", "classpath:/public/" };
+    /**
+     * <mvc:resources mapping="/resources/**" location="/resources/" />
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        if (!registry.hasMappingForPattern("/**")) {
+            registry.addResourceHandler("/**").addResourceLocations(
+                    CLASSPATH_RESOURCE_LOCATIONS);
+        }
+
+//        registry.addResourceHandler("/codemirror/**").addResourceLocations("/codemirror/");
+//        registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/");
+//        registry.addResourceHandler("/font-awesome/**").addResourceLocations("/font-awesome/");
+
+    }
 
     @Bean(name="simpleMappingExceptionResolver")
     public SimpleMappingExceptionResolver
@@ -28,11 +46,11 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
                 new SimpleMappingExceptionResolver();
 
         Properties mappings = new Properties();
-        mappings.setProperty("DatabaseException", "databaseError");
+        mappings.setProperty("/error", "error/error");
         mappings.setProperty("InvalidCreditCardException", "creditCardError");
 
         r.setExceptionMappings(mappings);  // None by default
-        r.setDefaultErrorView("error");    // No default
+        r.setDefaultErrorView("error/error");    // No default
         r.setExceptionAttribute("ex");     // Default is "exception"
         r.setWarnLogCategory("example.MvcLogger");     // No default
         return r;
@@ -45,14 +63,63 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         return registrationBean;
     }
 
+
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
-        registry.addViewController("/index").setViewName("index");
+        registry.addViewController("/").setViewName("/index");
+        registry.addViewController("/index").setViewName("/index");
         registry.addViewController("/test_validator").setViewName("test_validator");
         registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/hello").setViewName("hello");
+        registry.addViewController("/signup").setViewName("signup");
     }
 
+    /**
+     *  <mvc:interceptors>
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(siteInterceptor).addPathPatterns("/interceptorCall/*");
+        registry.addInterceptor(getLocaleChangeInterceptor()).addPathPatterns("/*");
+    }
 
+    @Bean(name = "localeChangeInterceptor")
+    public LocaleChangeInterceptor getLocaleChangeInterceptor() {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("languageVar");
+        return localeChangeInterceptor;
+    }
+
+//    @Autowired
+//    private SiteInterceptor siteInterceptor;
+
+    /**
+     *  <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+     */
+    @Bean(name = "localeResolver")
+    public CookieLocaleResolver getLocaleResolver() {
+        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
+        cookieLocaleResolver.setDefaultLocale(new Locale("ru"));
+        cookieLocaleResolver.setCookieMaxAge(100000);
+        return cookieLocaleResolver;
+    }
+
+    /**
+     * <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+     */
+    @Bean(name = "messageSource")
+    public ReloadableResourceBundleMessageSource getMessageSource() {
+        ReloadableResourceBundleMessageSource resource = new ReloadableResourceBundleMessageSource();
+        resource.setBasename("classpath:/locales/messages");
+        resource.setCacheSeconds(1);
+        resource.setDefaultEncoding("UTF-8");
+        return resource;
+    }
+    // as alternative with-out automatic reloading, you could use the following:
+//        @Bean
+//        public ResourceBundleMessageSource messageSource() {
+//                ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+//                messageSource.setBasename("classpath:locales/messages");
+//                return messageSource;
+//        }
 }

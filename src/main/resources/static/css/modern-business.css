@@ -1,93 +1,326 @@
-/*!
- * Start Bootstrap - Modern Business HTML Template (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
+.nodeNum {
+    margin: 5px;
+    cursor: pointer;
+}
 
-/* Global Styles */
+.nodeNum:hover {
+    font-weight: bold;
+}
 
-html,
-body {
+#bubblechart {
+    font-size: 8px;
+}
+#scrollboxCMD{
+    width:680px;
+    height:380px;
+    font-family: "Lucida Console";
+    background:#000000;
+    color:#FFFFFF;
+    overflow:auto; overflow-x:hidden;
+}
+#inputCMD{
+
+    word-wrap:break-word;
+    width:680px;
+    height:80px;
+    font-family: "Lucida Console";
+    background:#000000;
+    color:#FFFFFF;
+    cursor: text;
+    overflow:auto; overflow-x:hidden;
+}
+
+#border_navbar {
+    height: 30px;
+    background-color: #666;
+    padding-left: 25px;
+    min-width: 470px;
+}
+
+#border_navbar ul{
+    display: none;
+    background-color: #f90;
+    position: absolute;
+    top: 100%;
+}
+#border_navbar li:hover ul { display: block; }
+#border_navbar, #border_navbar ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#border_navbar li {
+    float: left;
+    position: relative;
     height: 100%;
 }
+#border_navbar li a {
+    display: block;
+    padding: 6px;
+    width: 100px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+}
+#border_navbar ul li { float: none; }
+#border_navbar li:hover { background-color: #f90; }
+#border_navbar ul li:hover { background-color: #666; }
 
-body {
-    padding-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+
+
+#js_navbar {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    border: 2px solid #0066FF;
+    border-radius: 20px 5px;
+    width: 550px;
+    text-align: center;
+    background-color: #33ADFF;
+}
+#js_navbar a {
+    color: #fff;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    width: 100px;
+}
+#js_navbar a:hover {
+    border-radius: 20px 5px;
+    background-color: #0066FF;
 }
 
-.img-portfolio {
-    margin-bottom: 30px;
+#header {
+    position:relative;
+    width:100%;
+    background-color: #7874E8;
+    height:120px;
 }
 
-.img-hover:hover {
-    opacity: 0.8;
+#headerTitle {
+    position: absolute;
+    top:20px;
+    left:10px;
+    margin: 0px 0px;
+    font-size: 2.5em;
+    line-height: normal;
+    letter-spacing: normal;
+    font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
 }
 
-/* Home Page Carousel */
-
-header.carousel {
-    height: 50%;
+#headerTag {
+    position:absolute;
+    top:70px;
+    left:10px;
+    margin: 0px 00px;
+    font-weight: normal;
+    font-size: 1.0em;
+    line-height: normal;
+    font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+    letter-spacing: normal;
 }
 
-header.carousel .item,
-header.carousel .item.active,
-header.carousel .carousel-inner {
-    height: 100%;
+#headerImg {
+    position:absolute;
+    top:10px;
+    right:5px;
 }
 
-header.carousel .fill {
+#menu {
+    /*  position:static;
+        height: 25px; */
+    text-align:  right;
+    float: left;
     width: 100%;
-    height: 100%;
-    background-position: center;
-    background-size: cover;
+    background-color: #FFFFFF;
+    color: #122b40;
+    font-size:14px;
+    font-family:Verdana,Arial,sans-serif;
 }
 
-/* 404 Page Styles */
-
-.error-404 {
-    font-size: 100px;
+#menu ul {
+    list-style: none;
+    margin: 0;
+    z-index: 5;
 }
 
-/* Pricing Page Styles */
+#menu li {
 
-.price {
+    /*position: relative;*/
+    display: inline;
+    float: left;
+}
+
+#menu a {
     display: block;
-    font-size: 50px;
-    line-height: 50px;
+    padding: 5px 12px 5px;
+    text-decoration: none;
+    color: #122b40;
 }
 
-.price sup {
-    top: -20px;
-    left: 2px;
-    font-size: 20px;
+#menu a:hover {
+    background: transparent;
+    color:#1C005A;
 }
 
-.period {
+#menu a:active {
+}
+
+#menu a.active {
+    color:#00c4ff;
+}
+
+#footer {
+    font-size:10px;
+}
+
+table.rtcm {
+    border-collapse:collapse;
+    border:1px solid black;
+    font-family:verdana,arial,sans-serif;
+}
+table.rtcm tr {
+    font-size:12px;
+}
+
+table.rtcm td {
+    white-space:nowrap;
+}
+
+table.rtcm th {
+    border:1px solid black;
+    font-size:13px;
+    background-color: #dedede;
+}
+
+table.gridtable {
+    font-family: verdana,arial,sans-serif;
+    font-size:11px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #666666;
+    border-collapse: collapse;
+}
+
+table.gridtable th {
+    border-width: 1px;
+    padding: 4px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #dedede;
+}
+.right{
+    float: right;
+    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+
+table.gridtable td {
+    border-width: 1px;
+    padding: 4px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #ffffff;
+}
+
+table.gridtable tr.rColor td {
+    background-color: #8BA51A; color: white;
+}
+
+table.gridtable tr.cColor td {
+    background-color: #FF9900; color: white;
+}
+
+.disconnect {
+    font-size: 14px;
+    text-align: left;
+}
+
+.text {
+    position: relative;
+    margin: 0px 0px 0px 10px;
+    width: 330px;
+    font-size: 14px;
+    text-align: left;
+}
+.barbox_a {
+    position: absolute;
+    top: 2px;
+    left: 10px;
+    margin: 0px 0px 0px 0px;
+    width: 302px;
+    height: 22px;
+    background-color: black;
+}
+.bar {
+    position: relative;
+    top: 1px;
+    left: 1px;
+    margin: 0px 0px 0px 0px;
+    width: 0px;
+    height: 20px;
+    background-color: #0099FF;
+    text-align: center;
+    color: white;
+}
+
+.per {
+    position: absolute;
+    top: 0px;
+    font-size: 12px;
+    left: 50%;
+    height: 20px;
+    margin: 0px 0px 0px 0px;
+    background-color: #0099FF;
+    color: white;
+}
+
+.blank {
+    background-color: white;
+    width: 300px;
+}
+
+#login {
+    display: none;
+}
+
+#login-header {
+    margin: 0 auto;
+    position: absolute;
+    right: 250px;
+}
+#login-link {
+    position: absolute;
+    top: 0px;
+    right: 0px;
     display: block;
-    font-style: italic;
+    background: #2a2a2a;
+    padding: 5px 15px 5px 15px;
+    color: #FFF;
+}
+#login-panel {
+    position: absolute;
+    top: 26px;
+    right: 0px;
+    width: 200px;
+    padding: 10px 15px 5px 15px;
+    background: #2a2a2a;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #FFF;
+    display: none;
+}
+label {
+    line-height: 1.8;
 }
 
-/* Footer Styles */
-
-footer {
-    margin: 50px 0;
+.clearer {
+    clear: both;
 }
 
-/* Responsive Styles */
-
-@media(max-width:991px) {
-    .customer-img,
-    .img-related {
-        margin-bottom: 30px;
-    }
-}
-
-@media(max-width:767px) {
-    .img-portfolio {
-        margin-bottom: 15px;
-    }
-
-    header.carousel .carousel {
-        height: 70%;
-    }
+#cpMain {
+    display: none;
 }

@@ -1,40 +1,98 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<head>
 
 </head>
 <body>
+<!-- Navigation -->
+<div th:fragment="header">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
 
-<div class="container">
-    <div th:fragment="header">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
 
-        <div id="header">
-
-            <div id="headerTitle">
-                Java language training
             </div>
-            <div id="headerTag">
-                ООО "jskills"
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
 
-                <p th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</p>
+                    <li th:if="${#authorization.expression('!isAuthenticated()')}">
+                        <li style="padding-top: 15px; padding-bottom: 15px; color: red">
+                            <li th:if="${param.error}">
+                                <span th:text="#{navMenu.notLogin}"/>
+                            </li>
+                        </li>
+                        <li><a href="#" style="color: Green;" th:href="@{/signup}"><span th:text="#{navMenu.signup}"/></a></li>
+                        <li><a href="#" style="color: Green;" th:href="@{/login}"><span th:text="#{navMenu.login}"/></a></li>
+
+                    </li>
+
+                    <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <li th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
+                        <li style="padding-top: 15px; padding-bottom: 15px; color: green">
+                            <span th:text="#{navMenu.existLogin}"/>
+
+                            <b th:inline="text">[[${#httpServletRequest.remoteUser}]]</b>
+                            <span th:text="#{navMenu.existLoginRole}"/>
+                            <b th:inline="text">ROLE_ADMIN</b>
+                        </li>
+                    </li>
+                    <li th:if="${#httpServletRequest.isUserInRole('ROLE_USER')}">
+                        <li style="padding-top: 15px; padding-bottom: 15px; color: green">
+                            <span th:text="#{navMenu.existLogin}"/>
+                            <b th:inline="text">[[${#httpServletRequest.remoteUser}]]</b>
+                            <span th:text="#{navMenu.existLoginRole}"/>
+                            <b th:inline="text">ROLE_USER</b>
+                        </li>
+                    </li>
+
+                    <li><a href="#" style="color: red;" th:href="@{/j_spring_security_logout}"><span
+                            th:text="#{navMenu.logout}"/></a></li>
+                    </li>
+                    <li>
+                        <a href="#" style="color: #FFFFFF;" th:href="@{/?languageVar=ru}">RU</a>
+                    </li>
+                    <li>
+                        <a href="#" style="color: #FFFFFF;" th:href="@{/?languageVar=en}">EN</a>
+                    </li>
+
+                </ul>
             </div>
-
-            <div id="headerImg">
-                <img src="/images/logo.jpg" width="140"
-                     th:src="@{/images/logo.jpg}"/>
-            </div>
-
         </div>
 
         <div id="menu">
+            <div class="container">
             <ul>
-                <li><a href="#" th:href="@{/}">Home</a></li>
+                <li><a href="#" th:href="@{/}"><span th:text="#{navMenu.home}"/></a></li>
+                <li><a href="#" th:href="@{/}"><span th:text="#{navMenu.howitworks}"/></a></li>
+                <li><a href="#" th:href="@{/}"><span th:text="#{navMenu.courses}"/></a></li>
+                <li><a href="#" th:href="@{/}"><span th:text="#{navMenu.events}"/></a></li>
+                <li><a href="#" th:href="@{/}"><span th:text="#{navMenu.blog}"/></a></li>
+                <li><a href="#" th:href="@{/}"><span th:text="#{navMenu.sertification}"/></a></li>
+                <li><a href="#" th:href="@{/}"><span th:text="#{navMenu.help}"/></a></li>
                 <li><a href="#" th:href="@{/test_validator}">Validator</a></li>
 
             </ul>
+            </div>
         </div>
 
-    </div>
+    </nav>
+<br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
 </div>
+
 </body>
 </html>

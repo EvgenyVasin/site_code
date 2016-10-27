@@ -231,7 +231,7 @@
     '{',
     '  [property "@fake"]: [string "@fake"],',
     '  [property "@contextual"]: [string "@identifier"],',
-    '  [property "user@domain.com"]: [string "@graphical"],',
+    '  [property "user@entities.com"]: [string "@graphical"],',
     '  [property "@ID"]: [string "@@ID"]',
     '}');
 })();
