@@ -15,10 +15,10 @@ public class User {
     @Column(name = "id")
     private Long userId;
 
-    @Column(name = "username", unique = true, length = 64)
+    @Column(name = "username", unique = true, length = 64, nullable = false)
     private String username;
 
-    @Column(name = "password", length = 256)
+    @Column(name = "password", length = 256, nullable = false)
     private String password;
 
     @Column(name = "first_name", length = 128)
@@ -27,7 +27,7 @@ public class User {
     @Column(name = "last_name", length = 128)
     private String lastName;
 
-    @Column(name = "enabled", length = 1)
+    @Column(name = "enabled", length = 1, nullable = false)
     private boolean enabled;
 
     @ManyToOne
