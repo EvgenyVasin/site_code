@@ -1,4 +1,7 @@
 package ru.jskills.controllers;
+
+
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,9 +24,14 @@ public class FileUploadController {
         if (!file.isEmpty()) {
 
             try {
+                File folder = new File("classpath:/pictures");
+
+                if (!folder.exists()) {
+                    folder.mkdir();
+                }
 
                 byte[] fileBytes = file.getBytes();
-                String rootPath = System.getProperty("catalina.home");
+                String rootPath = "classpath:/pictures";
                 System.out.println("Server rootPath: " + rootPath);
                 System.out.println("File original name: " + file.getOriginalFilename());
                 System.out.println("File content type: " + file.getContentType());

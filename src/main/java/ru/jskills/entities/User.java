@@ -1,6 +1,7 @@
 package ru.jskills.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -34,6 +35,12 @@ public class User {
     @JoinColumn(name = "role_id")
     private UserRole userRole;
 
+
+    @Column(name = "date_registration")
+    private Date dateRegistration;
+
+    @Column(name = "last_date")
+    private Date lastDate;
     /**
      * @return the userId
      */
@@ -126,9 +133,25 @@ public class User {
         this.userRole = userRole;
     }
 
+    public Date getDateRegistration() {
+        return dateRegistration;
+    }
+
+    public void setDateRegistration(Date dateRegistration) {
+        this.dateRegistration = dateRegistration;
+    }
+
+    public Date getLastDate() {
+        return lastDate;
+    }
+
+    public void setLastDate(Date lastDate) {
+        this.lastDate = lastDate;
+    }
+
     /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
+         * @see java.lang.Object#toString()
+         */
     @Override
     public String toString() {
         return "User [userId=" + userId + ", username=" + username

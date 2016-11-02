@@ -1,10 +1,6 @@
 package ru.jskills.controllers;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

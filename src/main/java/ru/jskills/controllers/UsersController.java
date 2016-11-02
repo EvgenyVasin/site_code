@@ -14,10 +14,7 @@ import ru.jskills.entities.UserRole;
 import ru.jskills.repositories.UserRoleRepository;
 import ru.jskills.repositories.UsersRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by safin.v on 26.10.2016.
@@ -56,6 +53,7 @@ public class UsersController {
         user.setFirstName(" ");
         user.setLastName(" ");
         user.setUserRole(userRole);
+        user.setDateRegistration(new Date());
         user.setEnabled(true);
         users.save(user);
         Map<String,String> attribute = new HashMap<>();

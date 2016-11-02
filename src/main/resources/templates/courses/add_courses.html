@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title th:text="#{courses.add}"/>
+
+    <th:block th:include="fragments/headerinc :: head"></th:block>
+    <th:block th:include="fragments/header :: header"></th:block>
+</head>
+<body>
+    <div class="container">
+        <h2  th:text="#{courses.add}"></h2>
+        <form th:action="@{/add_courses}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="actId" th:value= "${actId}"/>
+            <input type="hidden" name="parentId" th:value= "${parentId}"/>
+
+            <table>
+                <tr >
+                    <td th:text="#{courses.picture}"></td>
+                    <td><input name="img" type="file" /></td>
+
+                </tr>
+                <tr >
+                    <td th:text="#{courses.number}"></td>
+                    <td  style="width: 100%"><input type="number"  name="number" style="width: 100%"/></td>
+
+                </tr>
+                <tr >
+                    <td th:text="#{courses.caption}"></td>
+                    <td  style="width: 100%"><input type="text"  name="caption" style="width: 100%"/></td>
+
+                </tr>
+                <tr >
+                    <td  th:text="#{courses.text}"></td>
+                    <td style="width: 100%;height: 450px" ><textarea type="text" name="description" style="width: 100%;height: 450px"/></td>
+
+                </tr>
+
+
+                <tr>
+                    <td><input type="submit" value="OK"/></td>
+                </tr>
+            </table>
+        </form>
+    </div>>
+
+</body>
+</html>

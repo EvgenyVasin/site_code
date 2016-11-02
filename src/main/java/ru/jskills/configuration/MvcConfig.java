@@ -33,6 +33,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
                     CLASSPATH_RESOURCE_LOCATIONS);
         }
 
+        registry.addResourceHandler("/pictures/**").addResourceLocations("D:/pictures/");
+
 //        registry.addResourceHandler("/codemirror/**").addResourceLocations("/codemirror/");
 //        registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/");
 //        registry.addResourceHandler("/font-awesome/**").addResourceLocations("/font-awesome/");

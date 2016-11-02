@@ -1,9 +1,6 @@
 package ru.jskills.security;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,11 +32,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         ru.jskills.entities.User user = userRepository.findByUsername(username);
         List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
+        user.setLastDate(new Date());
+        userRepository.save(user);
+
         return buildUserForAuthentication(user, authorities);
     }
 
     private User buildUserForAuthentication(ru.jskills.entities.User user,
                                             List<GrantedAuthority> authorities) {
+
 
         return new User(user.getUsername(), user.getPassword(),
                 user.isEnabled(), true, true, true, authorities);

@@ -4,36 +4,29 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by safin.v on 29.09.2016.
  */
 @Entity
 @Table(name = "lectures")
-public class Lecture {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
-
+public class Lecture extends CustomCourses{
 
     @ManyToOne
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", nullable = false)
         private Course course;
 
-    @Column(name = "caption", length = 256, nullable = false)
-    private String caption;
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<Paragraph> paragraphs = new HashSet<Paragraph>();
 
-
-    @Column(name = "description", length = 256, nullable = false)
-    private String description;
-
-    public Long getId() {
-        return id;
+    public Set<Paragraph> getParagraphs() {
+        return paragraphs;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setParagraphs(Set<Paragraph> paragraphs) {
+        this.paragraphs = paragraphs;
     }
 
     public Course getCourse() {
@@ -44,28 +37,14 @@ public class Lecture {
         this.course = course;
     }
 
-    public String getCaption() {
-        return caption;
-    }
 
-    public void setCaption(String caption) {
-        this.caption = caption;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     @Override
     public String toString() {
         return "Lecture{" +
                 "course=" + course +
-                ", caption='" + caption + '\'' +
-                ", description='" + description + '\'' +
+                ", caption='" + getCaption() + '\'' +
+                ", description='" + getText() + '\'' +
                 '}';
     }
 }

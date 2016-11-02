@@ -10,40 +10,14 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "paragraphs")
-public class Paragraph {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+public class Paragraph  extends CustomCourses{
+
 
     @ManyToOne
-    @JoinColumn(name = "lecture_id")
+    @JoinColumn(name = "lecture_id", nullable = false)
     private Lecture lecture;
 
-    @Column(name = "img_link", length = 256)
-    private String imgLink;
 
-    @Column(name = "caption", length = 256, nullable = false)
-    private String caption;
-
-    @Column(name = "paragraph_text", length = 1024)
-    private String text;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getImgLink() {
-        return imgLink;
-    }
-
-    public void setImgLink(String imgLink) {
-        this.imgLink = imgLink;
-    }
 
     public Lecture getLecture() {
         return lecture;
@@ -53,28 +27,13 @@ public class Paragraph {
         this.lecture = lecture;
     }
 
-    public String getCaption() {
-        return caption;
-    }
-
-    public void setCaption(String caption) {
-        this.caption = caption;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 
     @Override
     public String toString() {
         return "Paragraph{" +
                 "lecture=" + lecture +
-                ", caption='" + caption + '\'' +
-                ", text='" + text + '\'' +
+                ", caption='" + getCaption() + '\'' +
+                ", text='" + getText() + '\'' +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package ru.jskills.dbloader;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +41,7 @@ public class UserDataLoader  implements ApplicationListener<ContextRefreshedEven
             admin.setPassword("password");
             admin.setFirstName("Foo");
             admin.setLastName("Bar");
+            admin.setDateRegistration(new Date());
             ;
             admin.setUserRole(adminRole);
             admin.setEnabled(true);
@@ -58,6 +60,7 @@ public class UserDataLoader  implements ApplicationListener<ContextRefreshedEven
             user1.setLastName("Doe");
             user1.setUserRole(userRole);
             user1.setEnabled(true);
+            user1.setDateRegistration(new Date());
             userRepository.save(user1);
             logger.debug("Saved user1 ID: " + user1.getUserId());
         }  catch (final Exception err) {
