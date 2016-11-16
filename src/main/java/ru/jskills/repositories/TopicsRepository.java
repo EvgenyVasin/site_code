@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.jskills.entities.Course;
-import ru.jskills.entities.Lecture;
+import ru.jskills.entities.Topic;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Repository
 @Qualifier(value = "lecturesRepository")
-public interface LecturesRepository extends CrudRepository<Lecture, Long> {
-    List<Lecture> findByCourse(Course course);
+public interface TopicsRepository extends CrudRepository<Topic, Long> {
+    List<Topic> findByCourse(Course course);
 }
 

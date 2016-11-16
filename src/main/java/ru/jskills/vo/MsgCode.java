@@ -6,6 +6,7 @@ package ru.jskills.vo;
 public class MsgCode {
     public final static int CODE_MSG=0;
     public final static int CMD_MSG=1;
+    public final static int OK_MSG=2;
 
     private String sessionId;
     private int commandId;

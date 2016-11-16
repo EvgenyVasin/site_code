@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.jskills.entities.User;
 import ru.jskills.entities.UserRole;
@@ -28,6 +29,9 @@ public class UserDataLoader  implements ApplicationListener<ContextRefreshedEven
     @Autowired
     private UserRoleRepository userRoleRepository;
 
+    @Autowired
+    BCryptPasswordEncoder bcryptEncoder;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         try {
@@ -38,7 +42,8 @@ public class UserDataLoader  implements ApplicationListener<ContextRefreshedEven
 
             User admin = new User();
             admin.setUsername("admin");
-            admin.setPassword("password");
+            admin.setPassword(bcryptEncoder.encode("password"));
+            admin.setMail("123@list.ru");
             admin.setFirstName("Foo");
             admin.setLastName("Bar");
             admin.setDateRegistration(new Date());
@@ -55,7 +60,8 @@ public class UserDataLoader  implements ApplicationListener<ContextRefreshedEven
 
             User user1 = new User();
             user1.setUsername("user");
-            user1.setPassword("password");
+            user1.setPassword(bcryptEncoder.encode("password"));
+            user1.setMail("123@list.ru");
             user1.setFirstName("John");
             user1.setLastName("Doe");
             user1.setUserRole(userRole);

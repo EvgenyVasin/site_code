@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title th:text="${topic.caption}"/>
+
+    <th:block th:include="fragments/headerinc :: head"></th:block>
+    <th:block th:include="fragments/header :: header"></th:block>
+</head>
+<body>
+<div class="container">
+    <h1  th:text="${course.caption}"></h1>
+    <!--<img th:if ="${not #strings.isEmpty(course.imgLink)}" src="#" width="50" th:src="${'/imgCourse=' + course.id}"/>-->
+    <h2  th:text="${topic.caption}"></h2>
+
+    <!--<img th:if ="${not #strings.isEmpty(topic.imgLink)}" src="#" width="50" th:src="${'/imgTopic=' + topic.id}"/>-->
+    <div th:if="${not #lists.isEmpty(paragraphList)}">
+
+        <div th:each="paragraph : ${paragraphList}">
+            <table>
+                <tr>
+                    <td><h3 th:text="${paragraph.caption}"></h3></td>
+                    <td th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"> <a th:href="${'/delete_paragraph/' + paragraph.id}" th:text="#{courses.delete}"></a></td>
+                </tr>
+            </table>
+
+            <img th:if ="${not #strings.isEmpty(paragraph.imgLink)}" src="#" th:src="${'/imgParagraph=' + paragraph.id}"/>
+
+            <div th:id ="${paragraph.id}"/>
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var txt =/*[[${paragraph.text}]]*/ 'text';
+                var parId =/*[[${paragraph.id}]]*/ 'parId';
+                /*]]>*/
+                var scrl = document.getElementById(parId);
+                scrl.innerHTML  = txt.replaceAll('\n', '<br/>') + '<br/>';
+            </script>
+            <br/>
+        </div>
+
+    </div>
+    <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
+        <a th:href="${'/coursesadd/2/' + page.id}" th:text="#{courses.addParagraph}"></a>
+    </div>
+</div>
+</body>
+</html>

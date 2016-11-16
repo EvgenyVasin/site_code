@@ -22,6 +22,9 @@ public class User {
     @Column(name = "password", length = 256, nullable = false)
     private String password;
 
+    @Column(name = "e_mail", length = 256, nullable = false)
+    private String mail;
+
     @Column(name = "first_name", length = 128)
     private String firstName;
 
@@ -30,6 +33,12 @@ public class User {
 
     @Column(name = "enabled", length = 1, nullable = false)
     private boolean enabled;
+
+    @Column(name = "img_link", length = 256)
+    private String imgLink;
+
+    @Column(name = "img_content_type", length = 256)
+    private String imgContentType;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -81,6 +90,19 @@ public class User {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the e-mail
+     */
+    public String getMail() {
+        return mail;
+    }
+    /**
+     * @param mail the e-mail to set
+     */
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     /**
@@ -149,9 +171,25 @@ public class User {
         this.lastDate = lastDate;
     }
 
+    public String getImgLink() {
+        return imgLink;
+    }
+
+    public void setImgLink(String imgLink) {
+        this.imgLink = imgLink;
+    }
+
+    public String getImgContentType() {
+        return imgContentType;
+    }
+
+    public void setImgContentType(String imgContentType) {
+        this.imgContentType = imgContentType;
+    }
+
     /* (non-Javadoc)
-         * @see java.lang.Object#toString()
-         */
+             * @see java.lang.Object#toString()
+             */
     @Override
     public String toString() {
         return "User [userId=" + userId + ", username=" + username

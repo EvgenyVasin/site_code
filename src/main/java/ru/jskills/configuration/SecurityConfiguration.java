@@ -7,6 +7,7 @@ import javax.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 /**
@@ -33,6 +35,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated();
 
         http
+
+
                 .authorizeRequests().antMatchers("/console/**").permitAll().and()
                 .csrf()
                 .disable()
@@ -48,12 +52,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and()
-                .authorizeRequests().antMatchers("/security/**").hasRole("ADMIN")
+                .authorizeRequests().antMatchers("/private/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .and()
                 .logout().logoutUrl("/j_spring_security_logout").logoutSuccessUrl("/")
                 .and()
-                .rememberMe().key("myKey").tokenValiditySeconds(300)
+                .rememberMe().key("jskills").tokenValiditySeconds(86400)
                 .and()
                 .csrf().disable();
 
@@ -67,8 +71,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                  .userDetailsService(customUserDetailsService);
+                .userDetailsService(customUserDetailsService)
+                .passwordEncoder(getBCryptPasswordEncoder());
 
+
+    }
+
+    @Bean(name = "bcryptEncoder")
+    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder;
     }
 
 }

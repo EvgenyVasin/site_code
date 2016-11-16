@@ -2,6 +2,7 @@ package ru.jskills.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,8 @@ import java.util.*;
 public class UsersController {
     @Autowired
     UsersRepository users;
+    @Autowired
+    BCryptPasswordEncoder bcryptEncoder;
 
     @Autowired
     UserRoleRepository roles;
@@ -38,7 +41,7 @@ public class UsersController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public  ModelAndView addUser(String username, String password, String password_confirm, Model model)
+    public  ModelAndView addUser(String username, String password, String password_confirm, String e_mail, Model model)
     {
         //no empty fields allowed
         if (username.isEmpty() || password.isEmpty() || password_confirm.isEmpty())
@@ -49,9 +52,10 @@ public class UsersController {
         UserRole userRole = roles.findByUserRoleName("ROLE_USER");
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password);
+        user.setPassword(bcryptEncoder.encode(password));
         user.setFirstName(" ");
         user.setLastName(" ");
+        user.setMail(e_mail);
         user.setUserRole(userRole);
         user.setDateRegistration(new Date());
         user.setEnabled(true);

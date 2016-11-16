@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 
 @SpringBootApplication
+@ComponentScan
 public class JskillsApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

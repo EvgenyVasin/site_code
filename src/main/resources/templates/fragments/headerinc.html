@@ -24,6 +24,18 @@
     <script src="/js/bootstrap.min.js"
             th:src="@{/js/bootstrap.min.js}"></script>
 
+    <script type="text/javascript" >
+        String.prototype.replaceAll = function(character,replaceChar){
+            var word = this.valueOf();
+
+            while(word.indexOf(character) != -1)
+                word = word.replace(character,replaceChar);
+
+            return word;
+        }
+
+    </script>
+
 </head>
 <body>
 

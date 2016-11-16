@@ -11,22 +11,22 @@ import java.util.Set;
  * Created by safin.v on 29.09.2016.
  */
 @Entity
-@Table(name = "lectures")
-public class Lecture extends CustomCourses{
+@Table(name = "topics")
+public class Topic extends CustomCourses{
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-        private Course course;
+    private Course course;
 
-    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<Paragraph> paragraphs = new HashSet<Paragraph>();
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<Page> pages = new HashSet<Page>();
 
-    public Set<Paragraph> getParagraphs() {
-        return paragraphs;
+    public Set<Page> getPages() {
+        return pages;
     }
 
-    public void setParagraphs(Set<Paragraph> paragraphs) {
-        this.paragraphs = paragraphs;
+    public void setPages(Set<Page> pages) {
+        this.pages = pages;
     }
 
     public Course getCourse() {
@@ -41,7 +41,7 @@ public class Lecture extends CustomCourses{
 
     @Override
     public String toString() {
-        return "Lecture{" +
+        return "Topic{" +
                 "course=" + course +
                 ", caption='" + getCaption() + '\'' +
                 ", description='" + getText() + '\'' +

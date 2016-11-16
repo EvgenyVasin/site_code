@@ -2,11 +2,13 @@ package ru.jskills.configuration;
 
 import org.h2.server.web.WebServlet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
@@ -71,9 +73,11 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("/index");
         registry.addViewController("/index").setViewName("/index");
-        registry.addViewController("/test_validator").setViewName("test_validator");
+//        registry.addViewController("/test_validator").setViewName("test_validator");
+        registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/signup").setViewName("signup");
+        registry.addViewController("/profile").setViewName("users/profile");
     }
 
     /**
@@ -104,6 +108,16 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         cookieLocaleResolver.setDefaultLocale(new Locale("ru"));
         cookieLocaleResolver.setCookieMaxAge(100000);
         return cookieLocaleResolver;
+    }
+
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("UTF-8");
+        characterEncodingFilter.setForceEncoding(true);
+        registrationBean.setFilter(characterEncodingFilter);
+        return registrationBean;
     }
 
     /**

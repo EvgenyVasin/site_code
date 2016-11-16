@@ -8,41 +8,108 @@
     <th:block th:include="fragments/header :: header"></th:block>
 </head>
 <body>
-    <div class="container">
-        <h2  th:text="#{courses.add}"></h2>
-        <form th:action="@{/add_courses}" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="actId" th:value= "${actId}"/>
-            <input type="hidden" name="parentId" th:value= "${parentId}"/>
+<div class="container">
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" th:text="#{courses.add}">
+                </h3>
+            </div>
+            <form role="form" th:action="@{/add_courses}" method="post" enctype="multipart/form-data">
 
-            <table>
-                <tr >
-                    <td th:text="#{courses.picture}"></td>
-                    <td><input name="img" type="file" /></td>
+                <input type="hidden" name="actId" th:value="${actId}"/>
+                <input type="hidden" name="parentId" th:value="${parentId}"/>
 
-                </tr>
-                <tr >
-                    <td th:text="#{courses.number}"></td>
-                    <td  style="width: 100%"><input type="number"  name="number" style="width: 100%"/></td>
+                <div class="panel-body">
+                    <div class="row">
 
-                </tr>
-                <tr >
-                    <td th:text="#{courses.caption}"></td>
-                    <td  style="width: 100%"><input type="text"  name="caption" style="width: 100%"/></td>
+                        <!--<div class="col-xs-6 col-sm-6 col-md-6 login-box">-->
+                        <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-picture"></span></span>
+                            <label class="file_upload" required="False" autofocus="True">
+                                <mark th:text="#{courses.picture}"></mark>
 
-                </tr>
-                <tr >
-                    <td  th:text="#{courses.text}"></td>
-                    <td style="width: 100%;height: 450px" ><textarea type="text" name="description" style="width: 100%;height: 450px"/></td>
+                                <input id="InvInpt" type="file" name="img"/>
+                            </label>
+                            <script type="text/javascript">
+                                $(function () {
+                                    var wrapper = $(".file_upload"),
+                                            inp = wrapper.find("input"),
+                                            lbl = wrapper.find("mark");
 
-                </tr>
+                                    // Crutches for the :focus style:
+                                    inp.focus(function () {
+                                        wrapper.addClass("focus");
+                                    }).blur(function () {
+                                        wrapper.removeClass("focus");
+                                    });
 
+//                                            var file_api = ( window.File &amp;&amp; window.FileReader &amp;&amp; window.FileList &amp;&amp; window.Blob ) ? true : false;
 
-                <tr>
-                    <td><input type="submit" value="OK"/></td>
-                </tr>
-            </table>
-        </form>
-    </div>>
+                                    inp.change(function () {
+
+                                        if (inp[0].files[0])
+                                            file_name = inp[0].files[0].path;
+                                        else
+                                            file_name = inp.val().replace("C:\\fakepath\\", '');
+
+                                        if (!file_name.length)
+                                            return;
+
+                                        if (lbl.is(":visible")) {
+                                            lbl.text(file_name);
+
+                                        }
+                                    }).change();
+
+                                });
+                                $(window).resize(function () {
+                                    $(".file_upload input").triggerHandler("change");
+                                });
+                            </script>
+                        </div>
+                        <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-list-alt"></span></span>
+                            <input type="number" class="form-control" name="number"
+                                   th:placeholder="#{courses.number}" required="True"/>
+                        </div>
+                        <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-list-alt"></span></span>
+                            <input type="text" class="form-control" name="caption"
+                                   th:placeholder="#{courses.caption}" required="True"/>
+                        </div>
+                        <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-list-alt"></span></span>
+                                    <textarea type="text" class="form-control" name="description" style="width: 100%"
+                                              th:placeholder="#{courses.text}" required="True"/>
+                        </div>
+
+                        <!--</div>-->
+
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <button type="submit" class="btn btn-labeled btn-success">
+                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span><span
+                                    th:text="OK"/></button>
+                            <button type="button" onclick="history.back();"
+                                    class="btn btn-labeled btn-danger">
+                                <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span><span
+                                    th:text="#{users.exit}"/></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>

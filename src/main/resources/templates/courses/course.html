@@ -3,69 +3,64 @@
 <head>
 
     <title th:text="${course.caption}"/>
-    <script src="/js/sockjs-0.3.4.js"></script>
-    <script src="/js/stomp.js"></script>
-    <script type="text/javascript" th:inline="javascript">
-        String.prototype.replaceAll = function(character,replaceChar){
-            var word = this.valueOf();
 
-            while(word.indexOf(character) != -1)
-                word = word.replace(character,replaceChar);
 
-            return word;
-        }
-
-        function out_print(){
-            /*<![CDATA[*/
-
-            var msg = /*[[${course.text}]]*/ 'description';
-
-            /*]]>*/
-            var scrl = document.getElementById("descr");
-            scrl.innerHTML  +=  msg .replaceAll('\n', '<br/>') + '<br/>';
-            scrl.scrollTop = scrl.scrollHeight;
-
-        }
-    </script>
     <th:block th:include="fragments/headerinc :: head"></th:block>
     <th:block th:include="fragments/header :: header"></th:block>
 </head>
-<body onload="out_print();">
+<body>
     <div class="container">
-        <h2  th:text="${course.caption}"></h2>
+
+        <h1  th:text="${course.caption}"></h1>
+
         <img th:if ="${not #strings.isEmpty(course.imgLink)}" src="#" width="150" th:src="${'/imgCourse=' + course.id}"/>
 
-        <h3  th:text="#{courses.description}"></h3>
-        <div id = "descr" >
+        <h2  th:text="#{courses.description}"></h2>
+        <div id = "txt"/>
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+        var txt =/*[[${course.text}]]*/ 'description';
+        /*]]>*/
+        var scrl = document.getElementById("txt");
+        scrl.innerHTML  = txt.replaceAll('\n', '<br/>') + '<br/>';
+        </script>
 
-        </div>
 
-        <h3  th:text="#{courses.lecturesList}"></h3>
-        <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
-            <a th:href="${'/coursesadd/1/' + course.id }" th:text="#{courses.addLecture}"></a>
-        </div>
-        <div >
-            <div th:if="${not #lists.isEmpty(lectureList)}">
-                <table class="table table-striped">
-                    <tr>
-                        <th></th>
-                        <th th:text="#{courses.caption}"></th>
-                        <th th:text="#{courses.description}"></th>
-                        <th></th>
-                        <th th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"></th>
-                    </tr>
-                    <tr th:each="lecture : ${lectureList}">
-                        <td><img th:if ="${not #strings.isEmpty(lecture.imgLink)}" src="#" width="150" th:src="${'/imgLecture=' + lecture.id}"/></td>
-                        <td th:text="${lecture.caption}"></td>
-                        <td th:text="${lecture.text}"></td>
-                        <td><a th:href="${'/lecture/' + lecture.id}" th:text="#{courses.view}"></a></td>
-                        <td th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"><a th:href="${'/delete_lecture/' + lecture.id}" th:text="#{courses.delete}"></a></td>
-                    </tr>
-                </table>
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title" th:text="#{courses.topicsList}"></h1>
+                    </div>
+                    <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
+                        <a th:href="${'/coursesadd/1/' + course.id }" th:text="#{courses.addTopic}"></a>
+                    </div>
+                    <div >
+                        <div th:if="${not #lists.isEmpty(lectureList)}">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th th:text="#{courses.caption}"></th>
+                                        <th th:text="#{courses.description}"></th>
+                                        <th></th>
+                                        <th th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="topic : ${lectureList}">
+                                        <td><img th:if ="${not #strings.isEmpty(topic.imgLink)}" src="#" width="150" th:src="${'/imgTopic=' + topic.id}"/></td>
+                                        <td th:text="${topic.caption}"></td>
+                                        <td th:text="${topic.text}"></td>
+                                        <td><a th:href="${'/topic/' + topic.id}" th:text="#{courses.view}"></a></td>
+                                        <td th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"><a th:href="${'/delete_topic/' + topic.id}" th:text="#{courses.delete}"></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-
     </div>
 </body>
 </html>

@@ -19,10 +19,7 @@ public abstract class CustomCourses {
     @Column(name = "img_link", length = 256)
     private String imgLink;
 
-    @Column(name = "img_content_type", length = 256)
-    private String imgContentType;
-
-    @Column(name = "caption", length = 256, nullable = false)
+    @Column(name = "caption", length = 256)
     private String caption;
 
     @Column(name = "text", length = 1024)
@@ -53,14 +50,6 @@ public abstract class CustomCourses {
 
     public void setImgLink(String imgLink) {
         this.imgLink = imgLink;
-    }
-
-    public String getImgContentType() {
-        return imgContentType;
-    }
-
-    public void setImgContentType(String imgContentType) {
-        this.imgContentType = imgContentType;
     }
 
     public String getCaption() {

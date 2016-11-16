@@ -10,28 +10,36 @@
 <body>
 
 <div class="container">
-    <h2  th:text="#{courses.list}"></h2>
-        <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
-            <a th:href="${'/coursesadd/0/0'}" th:text="#{courses.addCourse}"></a>
-        </div>
-    <div th:if="${not #lists.isEmpty(courseList)}">
-        <table class="table table-striped">
-            <tr>
-                <th></th>
-                <th th:text="#{courses.caption}"></th>
-                <th th:text="#{courses.description}"></th>
-                <th></th>
-                <th th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"></th>
-            </tr>
-            <tr th:each="course : ${courseList}">
-                <td><img th:if ="${not #strings.isEmpty(course.imgLink)}" src="#" width="150" th:src="${'/imgCourse=' + course.id}"/></td>
-                <td th:text="${course.caption}"></td>
-                <td th:text="${course.text}"></td>
-                <td><a th:href="${'/course/' + course.id}" th:text="#{courses.view}"></a></td>
-                <td th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"><a th:href="${'/delete_course/' + course.id}" th:text="#{courses.delete}"></a></td>
-            </tr>
-        </table>
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title" th:text="#{courses.list}"></h1>
+            </div>
+            <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
+                <a th:href="${'/coursesadd/0/0'}" th:text="#{courses.addCourse}"></a>
+            </div>
 
+            <table th:if="${not #lists.isEmpty(courseList)}" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th th:text="#{courses.caption}"></th>
+                        <th th:text="#{courses.description}"></th>
+                        <th></th>
+                        <th th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  th:each="course : ${courseList}">
+                        <td><img th:if ="${not #strings.isEmpty(course.imgLink)}" src="#" width="150" th:src="${'/imgCourse=' + course.id}"/></td>
+                        <td  th:text="${course.caption}"></td>
+                        <td  th:text="${course.text}"></td>
+                        <td><a th:href="${'/course/' + course.id}" th:text="#{courses.view}"></a></td>
+                        <td th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"><a th:href="${'/delete_course/' + course.id}" th:text="#{courses.delete}"></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>

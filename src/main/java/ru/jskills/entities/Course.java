@@ -1,12 +1,7 @@
 package ru.jskills.entities;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,14 +11,14 @@ import java.util.Set;
 @Table(name = "courses")
 public class Course extends CustomCourses{
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<Lecture> lectures = new HashSet<Lecture>();
+    private Set<Topic> topics = new HashSet<Topic>();
 
-    public Set<Lecture> getLectures() {
-        return lectures;
+    public Set<Topic> getTopics() {
+        return topics;
     }
 
-    public void setLectures(Set<Lecture> lectures) {
-        this.lectures = lectures;
+    public void setTopics(Set<Topic> topics) {
+        this.topics = topics;
     }
 
     @Override

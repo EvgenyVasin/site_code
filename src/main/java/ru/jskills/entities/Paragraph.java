@@ -1,9 +1,6 @@
 package ru.jskills.entities;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 /**
  * Created by safin.v on 29.09.2016.
@@ -14,24 +11,24 @@ public class Paragraph  extends CustomCourses{
 
 
     @ManyToOne
-    @JoinColumn(name = "lecture_id", nullable = false)
-    private Lecture lecture;
+    @JoinColumn(name = "page_id", nullable = false)
+    private Page page;
 
 
 
-    public Lecture getLecture() {
-        return lecture;
+    public Page getPage() {
+        return page;
     }
 
-    public void setLecture(Lecture lecture) {
-        this.lecture = lecture;
+    public void setPage(Page page) {
+        this.page = page;
     }
 
 
     @Override
     public String toString() {
         return "Paragraph{" +
-                "lecture=" + lecture +
+                "page=" + page +
                 ", caption='" + getCaption() + '\'' +
                 ", text='" + getText() + '\'' +
                 '}';

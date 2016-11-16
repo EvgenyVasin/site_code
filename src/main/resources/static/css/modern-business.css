@@ -10,27 +10,304 @@
 #bubblechart {
     font-size: 8px;
 }
+
+/*таблица с фиксированным заголовком*/
+.table-fixed thead {
+    width: 97%;
+}
+.table-fixed tbody {
+    height: 230px;
+    overflow-y: auto;
+    width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+    display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+    float: left;
+    border-bottom-width: 0;
+}
+
+.panel {
+    border-color: #0f0f0f;
+}
+ .panel-primary .panel-heading {
+     background: #0f0f0f;
+}
+
+/*file_upload*/
+.file_upload{
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+}
+
+.file_upload > mark{
+    background: transparent;     /* example */
+    padding-left: 1em            /* example */
+}
+
+.file_upload.focus{
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
+}
+
+.file_upload::-moz-placeholder {
+    color: #999;
+    opacity: 1
+}
+
+.file_upload:-ms-input-placeholder {
+    color: #999
+}
+
+.file_upload::-webkit-input-placeholder {
+    color: #999
+}
+
+.file_upload::-ms-expand {
+    background-color: transparent;
+    border: 0
+}
+
+.file_upload[disabled], .file_upload[readonly], fieldset[disabled] .file_upload {
+    background-color: #eee;
+    opacity: 1
+}
+
+.file_upload[disabled], fieldset[disabled] .file_upload {
+    cursor: not-allowed
+}
+
+textarea.file_upload {
+    height: auto
+}
+
+@media only screen and ( max-width: 500px ){  /* example */
+    .file_upload > mark{
+        display: none
+    }
+}
+.file_upload input[type=file]{
+    position: absolute;
+    top: 0;
+    opacity: 0
+}
+
+/* Making it beautiful */
+
+/*.file_upload.focus{*/
+    /*box-shadow: 0 0 5px rgba(0,30,255,0.4)*/
+/*}*/
+
+
+/*comments*/
+html {
+    font-size: 16px;
+}
+
+/*.media-body .panel-heading {*/
+    /*background: #0f0f0f;*/
+/*}*/
+
+
+.media-body .author {
+    display: block;
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 700;
+}
+.media-body .metadata {
+    display: block;
+    color: #fff;
+    font-size: .8125rem;
+}
+.title-comments {
+    font-size: 1.4rem;
+    font-weight: bold;
+    line-height: 1.5rem;
+    color: rgba(0,0,0,.87);
+    margin-bottom: 1rem;
+    padding-bottom: .25rem;
+    border-bottom: 1px solid rgba(34,36,38,.15);
+}
+.media-left img {
+    width: 50px;
+}
+.media {
+    margin-top:0px;
+}
+/*login*/
+.btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
+.btn-labeled {padding-top: 0;padding-bottom: 0;}
+.input-group { margin-bottom:10px; }
+.separator { border-right: 1px solid #dfdfe0; }
+.facebook,.twitter { min-width:170px; }
+.facebook { background-color:#354E84;color:#fff; }
+.twitter { background-color:#00A5E3;color:#fff; }
+.facebook:hover,.twitter:hover { color:#fff; }
+
+
+/*profile*/
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+body
+{
+    font-family: 'Lato', 'sans-serif';
+}
+.profile
+{
+    min-height: 355px;
+    display: inline-block;
+}
+figcaption.ratings
+{
+    margin-top:20px;
+}
+figcaption.ratings a
+{
+    color:#f1c40f;
+    font-size:11px;
+}
+figcaption.ratings a:hover
+{
+    color:#f39c12;
+    text-decoration:none;
+}
+.divider
+{
+    border-top:1px solid rgba(0,0,0,0.1);
+}
+.emphasis
+{
+    border-top: 4px solid transparent;
+}
+.emphasis:hover
+{
+    border-top: 4px solid #1abc9c;
+}
+.emphasis h2
+{
+    margin-bottom:0;
+}
+span.tags
+{
+    background: #1abc9c;
+    border-radius: 2px;
+    color: #f5f5f5;
+    font-weight: bold;
+    padding: 2px 4px;
+}
+.dropdown-menu
+{
+    background-color: #34495e;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    width: 250px;
+    margin-left: -125px;
+    left: 50%;
+}
+.dropdown-menu .divider
+{
+    background:none;
+}
+.dropdown-menu>li>a
+{
+    color:#f5f5f5;
+}
+.dropup .dropdown-menu
+{
+    margin-bottom:10px;
+}
+.dropup .dropdown-menu:before
+{
+    content: "";
+    border-top: 10px solid #34495e;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    margin-left: -10px;
+    z-index: 10;
+}
+
+/*profile2*/
+body{background:url(http://bootstraptema.ru/images/bg/bg-1.png)}
+
+#main {
+    background-color: #f2f2f2;
+    padding: 20px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    border-bottom: 4px solid #ddd;
+}
+#real-estates-detail #author img {
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    border-radius: 100%;
+    border: 5px solid #ecf0f1;
+    margin-bottom: 10px;
+}
+#real-estates-detail .sosmed-author i.fa {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #bdc3c7;
+    color: #bdc3c7;
+    padding-top: 6px;
+    margin-top: 10px;
+}
+.panel-default .panel-heading {
+    background-color: #fff;
+}
+#real-estates-detail .slides li img {
+    height: 450px;
+}
 #scrollboxCMD{
-    width:680px;
-    height:380px;
+    width:100%;
+    height:350px;
     font-family: "Lucida Console";
     background:#000000;
     color:#FFFFFF;
     overflow:auto; overflow-x:hidden;
 }
-
-
 #inputCMD{
 
-    word-wrap:break-word;
-    width:680px;
-    height:80px;
-    font-family: "Lucida Console";
+    width: 100%; /* Ширина поля в процентах */
+    height: 50px; /* Высота поля в пикселах */
+    resize: none; /* Запрещаем изменять размер */
     background:#000000;
     color:#FFFFFF;
-    cursor: text;
+    resize: none; /* Запрещаем изменять размер */
+    /*overflow:auto; overflow-x:hidden;*/
+}
+
+#inputCode{
+    text-align:left;
+    word-wrap:break-word;
+    width:100%;
+    height:200px;
     overflow:auto; overflow-x:hidden;
 }
+
 
 #border_navbar {
     height: 30px;

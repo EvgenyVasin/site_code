@@ -8,21 +8,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.jskills.entities.Course;
-import ru.jskills.entities.CustomCourses;
-import ru.jskills.entities.Lecture;
+import ru.jskills.entities.*;
 import ru.jskills.repositories.CoursesRepository;
-import ru.jskills.repositories.LecturesRepository;
+import ru.jskills.repositories.TopicsRepository;
+import ru.jskills.repositories.PagesRepository;
+import ru.jskills.repositories.ParagraphsRepository;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by safin.v on 28.10.2016.
@@ -33,21 +29,34 @@ import java.util.List;
 public class CoursesController {
 
     public static final int ADD_COURSE = 0;
-    public static final int ADD_LECTURE = 1;
+    public static final int ADD_TOPIC = 1;
     public static final int ADD_PARAGRAPH = 2;
 
     @Autowired
     CoursesRepository courses;
     @Autowired
-    LecturesRepository lectures;
+    TopicsRepository topics;
+    @Autowired
+    PagesRepository pages;
+    @Autowired
+    ParagraphsRepository paragraphs;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     private String viewCourse(Course course,  Model model){
         model.addAttribute("course", course);
-        model.addAttribute("lectureList", lectures.findByCourse(course));
+        model.addAttribute("lectureList", topics.findByCourse(course));
         return "courses/course";
+    }
+
+    private String viewTopic(Topic topic, Model model, Page page){
+
+        model.addAttribute("course", topic.getCourse());
+        model.addAttribute("topic", topic);
+        model.addAttribute("page", page);
+        model.addAttribute("paragraphList", paragraphs.findByPage(page));
+        return "courses/topic";
     }
 
     private String viewCourses(Model model){
@@ -68,6 +77,15 @@ public class CoursesController {
 
     }
 
+    @RequestMapping(value = "/topic/{topicId}", method = RequestMethod.GET)
+    public String getLecture(@PathVariable Long topicId, Model model)
+    {   Topic topic = topics.findOne(topicId);
+        Page page = pages.findByNumberAndTopic(new Long(1),topic);
+        return viewTopic(topic, model, page);
+
+    }
+
+
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/delete_course/{courseId}", method = RequestMethod.GET)
     public String deleteCourse(@PathVariable Long courseId, Model model){
@@ -76,19 +94,28 @@ public class CoursesController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "/delete_lecture/{lectureId}", method = RequestMethod.GET)
-    public String deleteLecture(@PathVariable Long lectureId, Model model){
-        Lecture lecture = lectures.findOne(lectureId);
-        Course course = lecture.getCourse();
-        lectures.delete(lectureId);
+    @RequestMapping(value = "/delete_topic/{topicId}", method = RequestMethod.GET)
+    public String deleteLecture(@PathVariable Long topicId, Model model){
+        Topic topic = topics.findOne(topicId);
+        Course course = topic.getCourse();
+        topics.delete(topicId);
         return viewCourse(course, model);
     }
 
-    private void innerAddCourses(CustomCourses course, MultipartFile img, Long number, String caption, String description){
-        course.setNumber(number);
-        course.setCaption(caption);
-        course.setText(description);
-        course.setDateTime(new Date());
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "/delete_paragraph/{paragraphId}", method = RequestMethod.GET)
+    public String deleteParagraph(@PathVariable Long paragraphId, Model model){
+        Paragraph paragraph = paragraphs.findOne(paragraphId);
+        Page page = paragraph.getPage();
+        paragraphs.delete(paragraphId);
+        return viewTopic(page.getTopic(), model, page);
+    }
+
+    private void innerAddCourses(CustomCourses detal, MultipartFile img, Long number, String caption, String description){
+        detal.setNumber(number);
+        detal.setCaption(caption);
+        detal.setText(description);
+        detal.setDateTime(new Date());
 
         if (!img.isEmpty()) {
             try {
@@ -101,15 +128,13 @@ public class CoursesController {
                 byte[] fileBytes = img.getBytes();
 
                 String rootPath = "pictures/";
-
-                course.setImgContentType(img.getContentType());
                 System.out.println("File content type: " + img.getContentType());
                 File newFile = new File(rootPath + img.getOriginalFilename());
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(newFile));
                 stream.write(fileBytes);
                 stream.close();
 
-                course.setImgLink(rootPath + img.getOriginalFilename());
+                detal.setImgLink(rootPath + img.getOriginalFilename());
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -118,7 +143,7 @@ public class CoursesController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/coursesadd/{actId}/{parentId}", method = RequestMethod.GET)
     public String getFormAdd(@PathVariable Long actId, @PathVariable Long parentId, Model model){
         model.addAttribute("actId", actId);
@@ -130,10 +155,6 @@ public class CoursesController {
     @RequestMapping(value = "/add_courses", method = RequestMethod.POST)
     public  String add(HttpServletRequest request, Model model, @RequestParam("img")MultipartFile img, Integer actId, Long parentId, Long number, String caption, String description)
     {
-
-        if (caption.isEmpty() || description.isEmpty())
-            return null;
-
         switch (actId){
             case ADD_COURSE:
                 Course course = new Course();
@@ -142,13 +163,27 @@ public class CoursesController {
                 return viewCourse((Course)course, model);
 
 
-            case ADD_LECTURE:
+            case ADD_TOPIC:
                 Course parentCourse = courses.findOne(parentId);
-                Lecture lecture = new Lecture();
-                innerAddCourses(lecture, img, number, caption, description);
-                ((Lecture)lecture).setCourse(parentCourse);
-                lectures.save((Lecture)lecture);
-                return viewCourse(parentCourse, model);
+
+                Topic topic = new Topic();
+                innerAddCourses(topic, img, number, caption, description);
+                topic.setCourse(parentCourse);
+                topics.save(topic);
+
+                Page page = new Page();
+                page.setNumber(new Long(1));
+                page.setTopic(topic);
+                pages.save(page);
+                return viewTopic(topic, model, page);
+
+            case ADD_PARAGRAPH:
+                Page parentPage = pages.findOne(parentId);
+                Paragraph paragraph= new Paragraph();
+                innerAddCourses(paragraph, img, number, caption, description);
+                paragraph.setPage(parentPage);
+                paragraphs.save(paragraph);
+                return viewTopic(parentPage.getTopic(),model, parentPage);
         }
 
 
