@@ -2,7 +2,7 @@ package ru.jskills.entities;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -10,11 +10,9 @@ import java.util.Set;
  */
 @Entity
 @Table(name="users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long userId;
+public class User extends CustomEntity{
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<Comment>();
 
     @Column(name = "username", unique = true, length = 64, nullable = false)
     private String username;
@@ -50,19 +48,6 @@ public class User {
 
     @Column(name = "last_date")
     private Date lastDate;
-    /**
-     * @return the userId
-     */
-    public Long getUserId() {
-        return userId;
-    }
-
-    /**
-     * @param userId the userId to set
-     */
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     /**
      * @return the username
@@ -192,7 +177,7 @@ public class User {
              */
     @Override
     public String toString() {
-        return "User [userId=" + userId + ", username=" + username
+        return "User [userId=" + getId() + ", username=" + username
                 + ", password=" + password + ", firstName=" + firstName
                 + ", lastName=" + lastName
                 + ", userRoles=" + userRole

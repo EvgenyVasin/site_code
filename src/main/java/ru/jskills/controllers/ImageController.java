@@ -11,13 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ru.jskills.entities.Course;
-import ru.jskills.entities.CustomCourses;
-import ru.jskills.entities.Topic;
-import ru.jskills.entities.Paragraph;
+import ru.jskills.entities.*;
 import ru.jskills.repositories.CoursesRepository;
 import ru.jskills.repositories.TopicsRepository;
 import ru.jskills.repositories.ParagraphsRepository;
+import ru.jskills.repositories.UsersRepository;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -31,11 +29,19 @@ import java.io.InputStream;
 @ResponseBody
 public class ImageController {
     @Autowired
+    UsersRepository users;
+    @Autowired
     CoursesRepository courses;
     @Autowired
     TopicsRepository lectures;
     @Autowired
     ParagraphsRepository paragraphs;
+
+    @RequestMapping(value = "/imgUser={userId}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getUserImg(@PathVariable(value = "userId") Long  userId) throws IOException {
+        User user = users.findOne(userId);
+        return getImg(user, getClass().getResource("/static/images/noavatar.png").getFile());
+    }
 
     @RequestMapping(value = "/imgCourse={curseId}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getCourseImg(@PathVariable(value = "curseId") Long  curseId) throws IOException {
@@ -57,12 +63,25 @@ public class ImageController {
         return getImg(paragraph);
     }
 
-    private ResponseEntity<byte[]> getImg(CustomCourses detal) throws IOException{
+    private ResponseEntity<byte[]> getImg(CustomEntity detal) throws IOException{
+        return getImg(detal, "");
+    }
+
+    /**
+     * @param detal объект базы данных содержащий ссылку на картинку
+     * @param altImg альтернативная ссылка на картинку если в объекте нет ссылки
+     */
+    private ResponseEntity<byte[]> getImg(CustomEntity detal, String altImg) throws IOException{
         ByteArrayOutputStream out = null;
         InputStream input = null;
+        String imgLink = detal.getImgLink();
+
+        if(imgLink==null)
+            imgLink = altImg;
+
         try {
             out = new ByteArrayOutputStream();
-            input = new BufferedInputStream(new FileInputStream(detal.getImgLink()));
+            input = new BufferedInputStream(new FileInputStream(imgLink));
             int data = 0;
             while ((data = input.read()) != -1) {
                 out.write(data);

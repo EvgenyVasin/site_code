@@ -20,27 +20,25 @@ import java.util.*;
 /**
  * Created by safin.v on 26.10.2016.
  */
-@RestController
-@RequestMapping("/users")
-
+@Controller
 public class UsersController {
     @Autowired
     UsersRepository users;
     @Autowired
     BCryptPasswordEncoder bcryptEncoder;
-
     @Autowired
     UserRoleRepository roles;
-    @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(method = RequestMethod.GET)
-    public List<User> getUsers()
-    {
-        List<User> result = new ArrayList<>();
-        users.findAll().forEach(result::add);
-        return result;
-    }
 
-    @RequestMapping(method = RequestMethod.POST)
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @RequestMapping(method = RequestMethod.GET)
+//    public List<User> getUsers()
+//    {
+//        List<User> result = new ArrayList<>();
+//        users.findAll().forEach(result::add);
+//        return result;
+//    }
+
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public  ModelAndView addUser(String username, String password, String password_confirm, String e_mail, Model model)
     {
         //no empty fields allowed
@@ -66,23 +64,24 @@ public class UsersController {
     }
 
 
-    @RequestMapping(value = "/add",method = RequestMethod.GET)
-    public ModelAndView getUserForm()
-    {
-        return new ModelAndView("add");
-    }
+//    @RequestMapping(value = "/add",method = RequestMethod.GET)
+//    public ModelAndView getUserForm()
+//    {
+//        return new ModelAndView("add");
+//    }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Long id)
-    {
-        users.delete(id);
-    }
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+//    public void delete(@PathVariable("id") Long id)
+//    {
+//        users.delete(id);
+//    }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public User getUser(@PathVariable("id") Long id)
+//    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
+    @RequestMapping(value = "getUser/{username}", method = RequestMethod.GET)
+    public String getUser(@PathVariable("username") String username, Model model)
     {
-        return users.findOne(id);
+        model.addAttribute("user", users.findByUsername(username));
+        return "users/profile";
     }
 }

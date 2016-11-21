@@ -51,7 +51,7 @@ public class UserDataLoader  implements ApplicationListener<ContextRefreshedEven
             admin.setUserRole(adminRole);
             admin.setEnabled(true);
             userRepository.save(admin);
-            logger.debug("Saved admin ID: " + admin.getUserId());
+            logger.debug("Saved admin ID: " + admin.getId());
 
 
             UserRole userRole = new UserRole();
@@ -68,7 +68,7 @@ public class UserDataLoader  implements ApplicationListener<ContextRefreshedEven
             user1.setEnabled(true);
             user1.setDateRegistration(new Date());
             userRepository.save(user1);
-            logger.debug("Saved user1 ID: " + user1.getUserId());
+            logger.debug("Saved user1 ID: " + user1.getId());
         }  catch (final Exception err) {
             System.out.println(err);
     }

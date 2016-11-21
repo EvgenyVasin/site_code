@@ -35,7 +35,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
                     CLASSPATH_RESOURCE_LOCATIONS);
         }
 
-        registry.addResourceHandler("/pictures/**").addResourceLocations("D:/pictures/");
+//        registry.addResourceHandler("/pictures/**").addResourceLocations("D:/pictures/");
 
 //        registry.addResourceHandler("/codemirror/**").addResourceLocations("/codemirror/");
 //        registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/");
@@ -71,8 +71,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("/index");
-        registry.addViewController("/index").setViewName("/index");
+//        registry.addViewController("/").setViewName("/index");
+//        registry.addViewController("/index").setViewName("/index");
 //        registry.addViewController("/test_validator").setViewName("test_validator");
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/login").setViewName("login");

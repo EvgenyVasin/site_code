@@ -21,13 +21,6 @@ public class Topic extends CustomCourses{
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Page> pages = new HashSet<Page>();
 
-    public Set<Page> getPages() {
-        return pages;
-    }
-
-    public void setPages(Set<Page> pages) {
-        this.pages = pages;
-    }
 
     public Course getCourse() {
         return course;

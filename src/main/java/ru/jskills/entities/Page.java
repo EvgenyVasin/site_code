@@ -33,14 +33,6 @@ public class Page {
         this.id = id;
     }
 
-    public Set<Paragraph> getParagraphs() {
-        return paragraphs;
-    }
-
-    public void setParagraphs(Set<Paragraph> paragraphs) {
-        this.paragraphs = paragraphs;
-    }
-
     public Topic getTopic() {
         return topic;
     }

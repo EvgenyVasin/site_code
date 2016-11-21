@@ -1,6 +1,7 @@
 package ru.jskills.repositories;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.jskills.entities.Page;
@@ -14,5 +15,6 @@ import java.util.List;
 @Repository
 @Qualifier(value = "paragraphsRepository")
 public interface ParagraphsRepository extends CrudRepository<Paragraph, Long> {
-    List<Paragraph> findByPage(Page page);
+    List<Paragraph> findByPage(Page page, Sort sort);
+    List<Paragraph> findAll(Sort sort);
 }

@@ -29,7 +29,9 @@
             <div class="row">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h1 class="panel-title" th:text="#{courses.topicsList}"></h1>
+                        <div class="text-center">
+                            <strong class="panel-title" th:text="#{courses.topicsList}"></strong>
+                        </div>
                     </div>
                     <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
                         <a th:href="${'/coursesadd/1/' + course.id }" th:text="#{courses.addTopic}"></a>
@@ -48,10 +50,10 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="topic : ${lectureList}">
-                                        <td><img th:if ="${not #strings.isEmpty(topic.imgLink)}" src="#" width="150" th:src="${'/imgTopic=' + topic.id}"/></td>
+                                        <td><img th:if ="${not #strings.isEmpty(topic.imgLink)}" src="#" width="100" th:src="${'/imgTopic=' + topic.id}"/></td>
                                         <td th:text="${topic.caption}"></td>
                                         <td th:text="${topic.text}"></td>
-                                        <td><a th:href="${'/topic/' + topic.id}" th:text="#{courses.view}"></a></td>
+                                        <td><a th:href="${'/topic/' + topic.id + '/1'}" th:text="#{courses.view}"></a></td>
                                         <td th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"><a th:href="${'/delete_topic/' + topic.id}" th:text="#{courses.delete}"></a></td>
                                     </tr>
                                 </tbody>

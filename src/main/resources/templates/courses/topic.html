@@ -13,6 +13,16 @@
     <!--<img th:if ="${not #strings.isEmpty(course.imgLink)}" src="#" width="50" th:src="${'/imgCourse=' + course.id}"/>-->
     <h2  th:text="${topic.caption}"></h2>
 
+    <table>
+    <tr>
+        <td><b th:text="#{courses.pages}"></b><b th:text="':'"></b>&nbsp;</td>
+        <td th:each="page : ${pageList}"><a th:href="${'/topic/' + topic.id + '/' + page.number}" th:text="${page.number}"></a>&nbsp;&nbsp;</td>
+        <td th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">&nbsp;&nbsp;&nbsp;&nbsp;<a th:href="${'/addNewPage/' + current_page.id }" th:text="#{courses.addPage}"></a></td>
+        <td th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">&nbsp;&nbsp;&nbsp;&nbsp;<a th:href="${'/deletePage/' + current_page.id }" th:text="#{courses.deletePage}"></a></td>
+
+    </tr>
+    </table>
+
     <!--<img th:if ="${not #strings.isEmpty(topic.imgLink)}" src="#" width="50" th:src="${'/imgTopic=' + topic.id}"/>-->
     <div th:if="${not #lists.isEmpty(paragraphList)}">
 
@@ -20,7 +30,7 @@
             <table>
                 <tr>
                     <td><h3 th:text="${paragraph.caption}"></h3></td>
-                    <td th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}"> <a th:href="${'/delete_paragraph/' + paragraph.id}" th:text="#{courses.delete}"></a></td>
+                    <td th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">&nbsp;&nbsp;&nbsp;&nbsp;<a th:href="${'/delete_paragraph/' + paragraph.id}" th:text="#{courses.delete}"></a></td>
                 </tr>
             </table>
 
@@ -40,7 +50,7 @@
 
     </div>
     <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
-        <a th:href="${'/coursesadd/2/' + page.id}" th:text="#{courses.addParagraph}"></a>
+        <a th:href="${'/coursesadd/2/' + current_page.id}" th:text="#{courses.addParagraph}"></a>
     </div>
 </div>
 </body>

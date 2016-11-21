@@ -37,6 +37,8 @@
 
 /*file_upload*/
 .file_upload{
+    display: block;
+    position: relative;
     width: 100%;
     height: 34px;
     padding: 6px 12px;
@@ -54,6 +56,11 @@
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
 }
 
+.file_upload .button, .file_upload > mark{
+    display: block;
+    cursor: pointer              /* example */
+}
+
 .file_upload > mark{
     background: transparent;     /* example */
     padding-left: 1em            /* example */
@@ -66,18 +73,18 @@
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
 }
 
-.file_upload::-moz-placeholder {
-    color: #999;
-    opacity: 1
-}
+/*.file_upload::-moz-placeholder {*/
+    /*color: #999;*/
+    /*opacity: 1*/
+/*}*/
 
-.file_upload:-ms-input-placeholder {
-    color: #999
-}
+/*.file_upload:-ms-input-placeholder {*/
+    /*color: #999*/
+/*}*/
 
-.file_upload::-webkit-input-placeholder {
-    color: #999
-}
+/*.file_upload::-webkit-input-placeholder {*/
+    /*color: #999*/
+/*}*/
 
 .file_upload::-ms-expand {
     background-color: transparent;
@@ -163,7 +170,7 @@ html {
 
 
 /*profile*/
-@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+/*@import url(http://fonts.googleapis.com/css?family=Lato:400,700);*/
 body
 {
     font-family: 'Lato', 'sans-serif';
@@ -246,10 +253,10 @@ span.tags
 }
 
 /*profile2*/
-body{background:url(http://bootstraptema.ru/images/bg/bg-1.png)}
+/*body{background:url(http://bootstraptema.ru/images/bg/bg-1.png)}*/
 
 #main {
-    background-color: #f2f2f2;
+    background-color: #FFFFFF;
     padding: 20px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -259,13 +266,16 @@ body{background:url(http://bootstraptema.ru/images/bg/bg-1.png)}
     border-bottom: 4px solid #ddd;
 }
 #real-estates-detail #author img {
+    display: block;
+    margin: 0 auto;
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
     -ms-border-radius: 100%;
     -o-border-radius: 100%;
     border-radius: 100%;
     border: 5px solid #ecf0f1;
-    margin-bottom: 10px;
+
+
 }
 #real-estates-detail .sosmed-author i.fa {
     width: 30px;

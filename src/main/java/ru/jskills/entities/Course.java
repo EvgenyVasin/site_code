@@ -13,14 +13,6 @@ public class Course extends CustomCourses{
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Topic> topics = new HashSet<Topic>();
 
-    public Set<Topic> getTopics() {
-        return topics;
-    }
-
-    public void setTopics(Set<Topic> topics) {
-        this.topics = topics;
-    }
-
     @Override
     public String toString() {
         return "Course{" +

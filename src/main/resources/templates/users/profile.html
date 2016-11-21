@@ -13,61 +13,66 @@
 <body>
 
 <div class="container">
-    <div id="main">
+    <div id="main" style="height: 100%">
 
 
         <div class="row" id="real-estates-detail">
-            <div class="col-lg-4 col-md-4 col-xs-12">
-                <div class="panel panel-default">
+
+
+                <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <header class="panel-title">
-                            <div class="text-center">
-                                <strong>Пользователь сайта</strong>
-                            </div>
-                        </header>
-                    </div>
-                    <div class="panel-body">
-                        <div class="text-center" id="author">
-                            <img src="http://bootstraptema.ru/snippets/element/2016/profilesection/myprofile.jpg"/>
-                            <h3>Василий Понторезов</h3>
-                            <small class="label label-warning">Российская Федерация</small>
-                            <p>Я простой Русский пацан и мне всё по барабану.</p>
-                            <p class="sosmed-author">
-                                <a href="#"><i class="fa fa-facebook" title="Facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter" title="Twitter"></i></a>
-                                <a href="#"><i class="fa fa-google-plus" title="Google Plus"></i></a>
-                                <a href="#"><i class="fa fa-linkedin" title="Linkedin"></i></a>
-                            </p>
+                        <div class="text-center">
+                            <strong class="panel-title" th:text="#{users.profile}"></strong>
                         </div>
+
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-8 col-md-8 col-xs-12">
-                <div class="panel">
                     <div class="panel-body">
                         <ul id="myTab" class="nav nav-pills">
                             <li class="active"><a href="#detail" data-toggle="tab">О пользователе</a></li>
-                            <li class=""><a href="#contact" data-toggle="tab">Отправить сообщение</a></li>
+                            <li th:if="${user.username==#httpServletRequest.remoteUser || #httpServletRequest.isUserInRole('ROLE_ADMIN')}" class=""><a href="#courses" data-toggle="tab">Доступные курсы</a></li>
+                            <li th:if="${user.username==#httpServletRequest.remoteUser}" class=""><a href="#editProf" data-toggle="tab">Редактировать профиль</a></li>
+                            <li th:if="${#authorization.expression('isAuthenticated()')}" class=""><a href="#contact" data-toggle="tab">Отправить сообщение</a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <hr/>
                             <div class="tab-pane fade active in" id="detail">
-                                <h4>История профиля</h4>
-                                <table class="table table-th-block">
-                                    <tbody>
-                                    <tr><td class="active">Зарегистрирован:</td><td>12-06-2016</td></tr>
-                                    <tr><td class="active">Последняя активность:</td><td>12-06-2016 / 09:11</td></tr>
-                                    <tr><td class="active">Страна:</td><td>Россия</td></tr>
-                                    <tr><td class="active">Город:</td><td>Волгоград</td></tr>
-                                    <tr><td class="active">Пол:</td><td>Мужской</td></tr>
-                                    <tr><td class="active">Полных лет:</td><td>43</td></tr>
-                                    <tr><td class="active">Семейное положение:</td><td>Женат</td></tr>
-                                    <tr><td class="active">Рейтинг пользователя:</td><td><i class="fa fa-star" style="color:red"></i> <i class="fa fa-star" style="color:red"></i> <i class="fa fa-star" style="color:red"></i> <i class="fa fa-star" style="color:red"></i> 4/5</td></tr>
-                                    <tr><td class="active">Плагин рейтинга:</td><td><a href="http://bootstraptema.ru/stuff/plugins_bootstrap/improvement/bootstrap_star_rating/12-1-0-73" target="_blank">http://goo.gl/bGGXuw</a></td></tr>
-                                    </tbody>
-                                </table>
+                                <div class="col-lg-4 col-md-4 col-xs-12" >
+
+                                    <!--<div class="panel-body">-->
+                                        <div class="text-center" id="author">
+                                            <img src="#" th:src="${'/imgUser=' + user.id}"  class="img-circle img-responsive"/>
+                                            <h3 th:text="${user.firstName + ' ' + user.lastName}"></h3>
+                                            <small class="label label-warning" th:if="${user.userRole.userRoleName=='ROLE_ADMIN'}" th:text="#{users.roleAdmin}"/>
+                                            <small class="label label-warning" th:if="${user.userRole.userRoleName=='ROLE_USER'}" th:text="#{users.roleUser}"/>
+                                            <p>Я простой Русский пацан и мне всё по барабану.</p>
+                                            <p class="sosmed-author">
+                                                <a href="#"><i class="fa fa-facebook" title="Facebook"></i></a>
+                                                <a href="#"><i class="fa fa-twitter" title="Twitter"></i></a>
+                                                <a href="#"><i class="fa fa-google-plus" title="Google Plus"></i></a>
+                                                <a href="#"><i class="fa fa-linkedin" title="Linkedin"></i></a>
+                                            </p>
+                                        </div>
+                                    <!--</div>-->
+
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-xs-12">
+                                    <h4>История профиля</h4>
+                                    <table class="table table-th-block">
+                                        <tbody>
+                                        <tr><td class="active">Зарегистрирован:</td><td th:text="${user.dateRegistration}"></td></tr>
+                                        <tr><td class="active">Последняя активность:</td><td th:text="${user.lastDate}"></td></tr>
+                                        <tr><td class="active">Страна:</td><td>Россия</td></tr>
+                                        <tr><td class="active">Город:</td><td>Волгоград</td></tr>
+                                        <tr><td class="active">Пол:</td><td>Мужской</td></tr>
+                                        <tr><td class="active">Полных лет:</td><td>43</td></tr>
+                                        <tr><td class="active">Семейное положение:</td><td>Женат</td></tr>
+                                        <tr><td class="active">Рейтинг пользователя:</td><td><i class="fa fa-star" style="color:red"></i> <i class="fa fa-star" style="color:red"></i> <i class="fa fa-star" style="color:red"></i> <i class="fa fa-star" style="color:red"></i> 4/5</td></tr>
+                                        <tr><td class="active">Плагин рейтинга:</td><td><a href="http://bootstraptema.ru/stuff/plugins_bootstrap/improvement/bootstrap_star_rating/12-1-0-73" target="_blank">http://goo.gl/bGGXuw</a></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="tab-pane fade" id="contact">
+                            <div th:if="${#authorization.expression('isAuthenticated()')}" class="tab-pane fade" id="contact">
                                 <p></p>
                                 <form role="form">
                                     <div class="form-group">
@@ -99,88 +104,94 @@
                                     </div>
                                 </form>
                             </div>
+                            <div th:if="${user.username==#httpServletRequest.remoteUser}" class="tab-pane fade" id="editProf">
+                                <p></p>
+                                <form role="form">
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-picture"></span></span>
+                                        <label class="file_upload" required="False">
+                                            <mark th:text="#{courses.picture}"></mark>
+
+                                            <input type="file" name="img"/>
+                                        </label>
+                                        <script>
+                                            $(function () {
+                                                var wrapper = $(".file_upload"),
+                                                        inp = wrapper.find("input"),
+                                                        lbl = wrapper.find("mark");
+
+                                                // Crutches for the :focus style:
+                                                inp.focus(function () {
+                                                    wrapper.addClass("focus");
+                                                }).blur(function () {
+                                                    wrapper.removeClass("focus");
+                                                });
+
+//                                            var file_api = ( window.File &amp;&amp; window.FileReader &amp;&amp; window.FileList &amp;&amp; window.Blob ) ? true : false;
+
+                                                inp.change(function () {
+
+                                                    if (inp[0].files[0])
+                                                        file_name = inp[0].files[0].name;
+                                                    else
+                                                        file_name = inp.val().replace("C:\\fakepath\\", '');
+
+                                                    if (!file_name.length)
+                                                        return;
+
+                                                    if (lbl.is(":visible")) {
+                                                        lbl.text(file_name);
+
+                                                    }
+                                                }).change();
+
+                                            });
+                                            $(window).resize(function () {
+                                                $(".file_upload input").triggerHandler("change");
+                                            });
+                                        </script>
+                                    </div>
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-list-alt"></span></span>
+                                        <input type="text" class="form-control" name="first_name"
+                                               th:placeholder="${user.firstName}" autofocus = "True"/>
+                                    </div>
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-list-alt"></span></span>
+                                        <input type="text" class="form-control" name="last_name"
+                                               th:placeholder="${user.lastName}"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>E-mail адрес</label>
+                                        <input type="email" class="form-control rounded" placeholder="Ваш Е-майл"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"/> Согласен с условиями
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Текст Вашего сообщения</label>
+                                        <textarea class="form-control rounded" style="height: 100px;"></textarea>
+                                        <p class="help-block">Текст сообщения будет отправлен пользователю</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success" data-original-title="" title="">Отправить</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
         </div>
 
     </div><!-- /.main -->
 </div><!-- /.container -->
-
-<div class="row">
-    <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
-        <div class="well profile">
-            <div class="col-sm-12">
-                <div class="col-xs-12 col-sm-8">
-                    <h2>Сергей Иванов</h2>
-                    <p><strong>Обо мне: </strong> Веб-дизайнер. </p>
-                    <p><strong>Хобби: </strong> Книги, природа, активный отдых, сайтостроение, дизайн, верстка </p>
-                    <p><strong>Знания: </strong>
-                        <span class="tags">HTML5</span>
-                        <span class="tags">CSS3</span>
-                        <span class="tags">jQuery</span>
-                        <span class="tags">Bootstrap</span>
-                    </p>
-                </div>
-                <div class="col-xs-12 col-sm-4 text-center">
-                    <figure>
-                        <img src="http://bootstraptema.ru/snippets/element/2016/profilesection/myprofile.jpg" alt="user" class="img-circle img-responsive"/>
-                        <figcaption class="ratings">
-                            <p>Рейтинг
-                                <a href="#">
-                                    <span class="fa fa-star"></span>
-                                </a>
-                                <a href="#">
-                                    <span class="fa fa-star"></span>
-                                </a>
-                                <a href="#">
-                                    <span class="fa fa-star"></span>
-                                </a>
-                                <a href="#">
-                                    <span class="fa fa-star"></span>
-                                </a>
-                                <a href="#">
-                                    <span class="fa fa-star-o"></span>
-                                </a>
-                            </p>
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-            <div class="col-xs-12 divider text-center">
-                <div class="col-xs-12 col-sm-4 emphasis">
-                    <h2><strong> 32,4K </strong></h2>
-                    <p><small>Подписчиков</small></p>
-                    <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Подписатся</button>
-                </div>
-                <div class="col-xs-12 col-sm-4 emphasis">
-                    <h2><strong>723</strong></h2>
-                    <p><small>Записей</small></p>
-                    <button class="btn btn-info btn-block"><span class="fa fa-user"></span> Профиль</button>
-                </div>
-                <div class="col-xs-12 col-sm-4 emphasis">
-                    <h2><strong>74</strong></h2>
-                    <p><small>Работы</small></p>
-                    <div class="btn-group dropup btn-block">
-                        <button type="button" class="btn btn-primary"><span class="fa fa-gear"></span> Опции</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu text-left" role="menu">
-                            <li><a href="#"><span class="fa fa-envelope pull-right"></span> Отправить email </a></li>
-                            <li><a href="#"><span class="fa fa-list pull-right"></span> Редактировать список</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#"><span class="fa fa-warning pull-right"></span>Сообщить о спаме</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#" class="btn disabled" role="button"> Отписатся </a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 </html>

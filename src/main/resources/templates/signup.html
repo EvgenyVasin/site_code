@@ -11,10 +11,11 @@
             <div >
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title" th:text="#{navMenu.signup}">
-                        </h3>
+                        <div class="text-center">
+                            <strong class="panel-title" th:text="#{navMenu.signup}"></strong>
+                        </div>
                     </div>
-                    <form role="form" th:action="@{/users}" method="post">
+                    <form role="form" th:action="@{/addUser}" method="post">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 login-box">

@@ -1,6 +1,7 @@
 package ru.jskills.repositories;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.jskills.entities.Course;
@@ -15,5 +16,6 @@ import java.util.List;
 @Qualifier(value = "lecturesRepository")
 public interface TopicsRepository extends CrudRepository<Topic, Long> {
     List<Topic> findByCourse(Course course);
+    List<Topic> findAll(Sort sort);
 }
 

@@ -12,8 +12,9 @@
     <div class="row">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title" th:text="#{courses.add}">
-                </h3>
+                <div class="text-center">
+                    <strong class="panel-title" th:text="#{courses.add}"></strong>
+                </div>
             </div>
             <form role="form" th:action="@{/add_courses}" method="post" enctype="multipart/form-data">
 
@@ -27,12 +28,12 @@
                         <div class="input-group">
                                     <span class="input-group-addon"><span
                                             class="glyphicon glyphicon-picture"></span></span>
-                            <label class="file_upload" required="False" autofocus="True">
+                            <label class="file_upload" required="False">
                                 <mark th:text="#{courses.picture}"></mark>
 
-                                <input id="InvInpt" type="file" name="img"/>
+                                <input type="file" name="img"/>
                             </label>
-                            <script type="text/javascript">
+                            <script>
                                 $(function () {
                                     var wrapper = $(".file_upload"),
                                             inp = wrapper.find("input"),
@@ -50,7 +51,7 @@
                                     inp.change(function () {
 
                                         if (inp[0].files[0])
-                                            file_name = inp[0].files[0].path;
+                                            file_name = inp[0].files[0].name;
                                         else
                                             file_name = inp.val().replace("C:\\fakepath\\", '');
 

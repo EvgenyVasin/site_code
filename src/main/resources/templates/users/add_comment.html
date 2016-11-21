@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title th:text="#{courses.add}"/>
+
+    <th:block th:include="fragments/headerinc :: head"></th:block>
+    <th:block th:include="fragments/header :: header"></th:block>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="text-center">
+                    <strong class="panel-title" th:text="#{courses.add}"></strong>
+                </div>
+            </div>
+            <form role="form" th:action="@{/addNewComment}" method="post" enctype="multipart/form-data">
+
+                <input type="hidden" name="userName" th:value="${#httpServletRequest.remoteUser}"/>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="input-group">
+                                    <span class="input-group-addon"><span
+                                            class="glyphicon glyphicon-list-alt"></span></span>
+                                    <textarea type="text" class="form-control" name="commentMsg" style="width: 100%"
+                                              th:placeholder="#{courses.text}" required="True"/>
+                        </div>
+
+                        <!--</div>-->
+
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <button type="submit" class="btn btn-labeled btn-success">
+                                <span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span><span
+                                    th:text="OK"/></button>
+                            <button type="button" onclick="history.back();"
+                                    class="btn btn-labeled btn-danger">
+                                <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span><span
+                                    th:text="#{users.exit}"/></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

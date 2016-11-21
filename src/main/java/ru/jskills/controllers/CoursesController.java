@@ -3,6 +3,7 @@ package ru.jskills.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by safin.v on 28.10.2016.
@@ -51,16 +53,16 @@ public class CoursesController {
     }
 
     private String viewTopic(Topic topic, Model model, Page page){
-
         model.addAttribute("course", topic.getCourse());
         model.addAttribute("topic", topic);
-        model.addAttribute("page", page);
-        model.addAttribute("paragraphList", paragraphs.findByPage(page));
+        model.addAttribute("current_page", page);
+        model.addAttribute("paragraphList", paragraphs.findByPage(page, new Sort(Sort.Direction.ASC, "number")));
+        model.addAttribute("pageList", pages.findByTopic(topic, new Sort(Sort.Direction.ASC, "number")));
         return "courses/topic";
     }
 
     private String viewCourses(Model model){
-        model.addAttribute("courseList", courses.findAll());
+        model.addAttribute("courseList", courses.findAll(new Sort(Sort.Direction.ASC, "number")));
         return "courses/courses";
     }
 
@@ -77,10 +79,10 @@ public class CoursesController {
 
     }
 
-    @RequestMapping(value = "/topic/{topicId}", method = RequestMethod.GET)
-    public String getLecture(@PathVariable Long topicId, Model model)
+    @RequestMapping(value = "/topic/{topicId}/{currentPageNumber}", method = RequestMethod.GET)
+    public String getTopic(@PathVariable Long topicId, @PathVariable Long currentPageNumber, Model model)
     {   Topic topic = topics.findOne(topicId);
-        Page page = pages.findByNumberAndTopic(new Long(1),topic);
+        Page page = pages.findByNumberAndTopic(currentPageNumber, topic);
         return viewTopic(topic, model, page);
 
     }
@@ -149,6 +151,59 @@ public class CoursesController {
         model.addAttribute("actId", actId);
         model.addAttribute("parentId", parentId);
         return "courses/add_courses";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "/addNewPage/{currentPageId}", method = RequestMethod.GET)
+    public  String addNewPage(@PathVariable Long currentPageId, Model model){
+        Page currentPage = pages.findOne(currentPageId);
+
+        Topic topic = currentPage.getTopic();
+        Long curPageNumber = currentPage.getNumber();
+
+        List<Page> pageList = pages.findByTopic(topic);
+        for (Page pg:pageList) {
+            Long pgNumber = pg.getNumber();
+            if (pgNumber >  curPageNumber)
+                pg.setNumber(pgNumber + 1);
+        }
+        pages.save(pageList);
+
+        Page page = new Page();
+        page.setNumber(curPageNumber + 1);
+        page.setTopic(topic);
+        pages.save(page);
+        return viewTopic(topic, model, page);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "/deletePage/{currentPageId}", method = RequestMethod.GET)
+    public  String deletePage(@PathVariable Long currentPageId, Model model){
+        Page currentPage = pages.findOne(currentPageId);
+
+        Topic topic = currentPage.getTopic();
+        Long curPageNumber = currentPage.getNumber();
+
+        List<Page> pageList = pages.findByTopic(topic);
+        if (pageList.size()==1)
+            return viewTopic(topic, model, currentPage);
+
+        pages.delete(currentPageId);
+
+        pageList = pages.findByTopic(topic);
+
+        for (Page pg:pageList) {
+            Long pgNumber = pg.getNumber();
+            if (pgNumber >  curPageNumber)
+                pg.setNumber(pgNumber - 1);
+        }
+        pages.save(pageList);
+
+        if(curPageNumber > 1)
+            curPageNumber = curPageNumber - 1;
+        Page page = pages.findByNumberAndTopic(curPageNumber, topic);
+
+        return viewTopic(topic, model, page);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

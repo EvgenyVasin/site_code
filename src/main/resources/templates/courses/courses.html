@@ -13,7 +13,9 @@
     <div class="row">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h1 class="panel-title" th:text="#{courses.list}"></h1>
+                <div class="text-center">
+                    <strong class="panel-title" th:text="#{courses.list}"></strong>
+                </div>
             </div>
             <div th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
                 <a th:href="${'/coursesadd/0/0'}" th:text="#{courses.addCourse}"></a>
@@ -31,7 +33,7 @@
                 </thead>
                 <tbody>
                     <tr  th:each="course : ${courseList}">
-                        <td><img th:if ="${not #strings.isEmpty(course.imgLink)}" src="#" width="150" th:src="${'/imgCourse=' + course.id}"/></td>
+                        <td><img th:if ="${not #strings.isEmpty(course.imgLink)}" src="#" width="100" th:src="${'/imgCourse=' + course.id}"/></td>
                         <td  th:text="${course.caption}"></td>
                         <td  th:text="${course.text}"></td>
                         <td><a th:href="${'/course/' + course.id}" th:text="#{courses.view}"></a></td>
